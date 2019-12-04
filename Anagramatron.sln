@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Anagramatron", "Anagramatron\Anagramatron.vbproj", "{115E8411-798E-4CA2-8EF8-C4C8A231C456}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "AnagramatronInstaller", "AnagramatronInstaller\AnagramatronInstaller.vdproj", "{7B207494-E030-4462-872E-4D2386DD0265}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,8 @@ Global
 		{115E8411-798E-4CA2-8EF8-C4C8A231C456}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{115E8411-798E-4CA2-8EF8-C4C8A231C456}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{115E8411-798E-4CA2-8EF8-C4C8A231C456}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B207494-E030-4462-872E-4D2386DD0265}.Debug|Any CPU.ActiveCfg = Debug
+		{7B207494-E030-4462-872E-4D2386DD0265}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
