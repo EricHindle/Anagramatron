@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class frmAnagrams
+Partial Class FrmAnagrams
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,33 +22,34 @@ Partial Class frmAnagrams
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAnagrams))
-        Me.txtLetters = New System.Windows.Forms.TextBox
-        Me.txtPattern = New System.Windows.Forms.TextBox
-        Me.txtMinLen = New System.Windows.Forms.TextBox
-        Me.txtMaxLen = New System.Windows.Forms.TextBox
-        Me.txtAnagrams = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.Label7 = New System.Windows.Forms.Label
-        Me.Label8 = New System.Windows.Forms.Label
-        Me.Label9 = New System.Windows.Forms.Label
-        Me.cmdGetAnagrams = New System.Windows.Forms.Button
-        Me.cmdInterrupt = New System.Windows.Forms.Button
-        Me.cmdAnagClose = New System.Windows.Forms.Button
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox
-        Me.Label10 = New System.Windows.Forms.Label
-        Me.Label11 = New System.Windows.Forms.Label
+        Me.txtLetters = New System.Windows.Forms.TextBox()
+        Me.txtPattern = New System.Windows.Forms.TextBox()
+        Me.txtMinLen = New System.Windows.Forms.TextBox()
+        Me.txtMaxLen = New System.Windows.Forms.TextBox()
+        Me.txtAnagrams = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.cmdGetAnagrams = New System.Windows.Forms.Button()
+        Me.cmdInterrupt = New System.Windows.Forms.Button()
+        Me.cmdAnagClose = New System.Windows.Forms.Button()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.btnXword = New System.Windows.Forms.Button
-        Me.txtDef = New System.Windows.Forms.TextBox
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.btnXword = New System.Windows.Forms.Button()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.WebBrowser1 = New System.Windows.Forms.WebBrowser()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -57,27 +58,27 @@ Partial Class frmAnagrams
         'txtLetters
         '
         Me.txtLetters.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtLetters.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLetters.Location = New System.Drawing.Point(152, 22)
         Me.txtLetters.Margin = New System.Windows.Forms.Padding(4)
         Me.txtLetters.Name = "txtLetters"
-        Me.txtLetters.Size = New System.Drawing.Size(458, 27)
+        Me.txtLetters.Size = New System.Drawing.Size(740, 27)
         Me.txtLetters.TabIndex = 0
         Me.ToolTip1.SetToolTip(Me.txtLetters, "Type the letters to be used in the anagrams")
         '
         'txtPattern
         '
         Me.txtPattern.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtPattern.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtPattern.Location = New System.Drawing.Point(152, 57)
         Me.txtPattern.Margin = New System.Windows.Forms.Padding(4)
         Me.txtPattern.Name = "txtPattern"
-        Me.txtPattern.Size = New System.Drawing.Size(329, 27)
+        Me.txtPattern.Size = New System.Drawing.Size(611, 27)
         Me.txtPattern.TabIndex = 1
-        Me.ToolTip1.SetToolTip(Me.txtPattern, "Pattern that words must match using ? for single letters, * for multiple characte" & _
-                "rs")
+        Me.ToolTip1.SetToolTip(Me.txtPattern, "Pattern that words must match using ? for single letters, * for multiple characte" &
+        "rs")
         '
         'txtMinLen
         '
@@ -108,7 +109,7 @@ Partial Class frmAnagrams
         Me.txtAnagrams.Multiline = True
         Me.txtAnagrams.Name = "txtAnagrams"
         Me.txtAnagrams.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtAnagrams.Size = New System.Drawing.Size(153, 387)
+        Me.txtAnagrams.Size = New System.Drawing.Size(207, 383)
         Me.txtAnagrams.TabIndex = 4
         Me.ToolTip1.SetToolTip(Me.txtAnagrams, "Editable list of words made from the letters")
         '
@@ -276,7 +277,7 @@ Partial Class frmAnagrams
         '
         Me.Label11.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label11.Font = New System.Drawing.Font("Calibri", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(444, 539)
+        Me.Label11.Location = New System.Drawing.Point(726, 539)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(166, 13)
         Me.Label11.TabIndex = 19
@@ -294,22 +295,12 @@ Partial Class frmAnagrams
         Me.ToolTip1.SetToolTip(Me.btnXword, "Enter a pattern and find all matching words")
         Me.btnXword.UseVisualStyleBackColor = False
         '
-        'txtDef
-        '
-        Me.txtDef.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.txtDef.Location = New System.Drawing.Point(0, 0)
-        Me.txtDef.Multiline = True
-        Me.txtDef.Name = "txtDef"
-        Me.txtDef.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtDef.Size = New System.Drawing.Size(289, 387)
-        Me.txtDef.TabIndex = 22
-        Me.txtDef.WordWrap = False
-        '
         'SplitContainer1
         '
         Me.SplitContainer1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.SplitContainer1.Location = New System.Drawing.Point(164, 138)
         Me.SplitContainer1.Name = "SplitContainer1"
         '
@@ -319,10 +310,19 @@ Partial Class frmAnagrams
         '
         'SplitContainer1.Panel2
         '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.txtDef)
-        Me.SplitContainer1.Size = New System.Drawing.Size(446, 387)
-        Me.SplitContainer1.SplitterDistance = 153
+        Me.SplitContainer1.Panel2.Controls.Add(Me.WebBrowser1)
+        Me.SplitContainer1.Size = New System.Drawing.Size(728, 387)
+        Me.SplitContainer1.SplitterDistance = 211
         Me.SplitContainer1.TabIndex = 23
+        '
+        'WebBrowser1
+        '
+        Me.WebBrowser1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.WebBrowser1.Location = New System.Drawing.Point(0, 0)
+        Me.WebBrowser1.MinimumSize = New System.Drawing.Size(20, 20)
+        Me.WebBrowser1.Name = "WebBrowser1"
+        Me.WebBrowser1.Size = New System.Drawing.Size(509, 383)
+        Me.WebBrowser1.TabIndex = 23
         '
         'frmAnagrams
         '
@@ -330,7 +330,7 @@ Partial Class frmAnagrams
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Lavender
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.ClientSize = New System.Drawing.Size(624, 564)
+        Me.ClientSize = New System.Drawing.Size(906, 564)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.btnXword)
         Me.Controls.Add(Me.Label11)
@@ -362,7 +362,7 @@ Partial Class frmAnagrams
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
-        Me.SplitContainer1.Panel2.PerformLayout()
+        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -390,7 +390,6 @@ Partial Class frmAnagrams
     Friend WithEvents Label11 As System.Windows.Forms.Label
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
     Friend WithEvents btnXword As System.Windows.Forms.Button
-    Friend WithEvents txtDef As System.Windows.Forms.TextBox
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-
+    Friend WithEvents WebBrowser1 As WebBrowser
 End Class

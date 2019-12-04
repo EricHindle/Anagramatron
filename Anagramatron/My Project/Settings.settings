@@ -5,5 +5,8 @@
     <Setting Name="CodedWordList" Type="System.String" Scope="User">
       <Value Profile="(Default)">wordlist.wyk</Value>
     </Setting>
+    <Setting Name="wikiExtractSearch" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://en.wiktionary.org/api/rest_v1/page/definition/</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
