@@ -55,6 +55,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -71,6 +87,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -105,7 +129,7 @@
             "SourcePath" = "8:..\\Anagramatron\\wordlist.wyk"
             "TargetName" = "8:wordlist.wyk"
             "Tag" = "8:"
-            "Folder" = "8:_B47B7FEA50484E07AFE71FDF938C7C82"
+            "Folder" = "8:_0CE32C0A01E144CCA04301C9ED245D0D"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -146,6 +170,18 @@
         }
         "Folder"
         {
+            "{994432C3-9487-495D-8656-3E829A8DBDDE}:_0CE32C0A01E144CCA04301C9ED245D0D"
+            {
+            "DefaultLocation" = "8:[WindowsVolume]\\Anagramatron"
+            "Name" = "8:Anagramatron"
+            "AlwaysCreate" = "11:TRUE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Property" = "8:NEWPROPERTY1"
+                "Folders"
+                {
+                }
+            }
             "{1525181F-901A-416C-8A58-119130FE478E}:_5018905599C240B58AC333AEA80A5B1F"
             {
             "Name" = "8:#1919"
@@ -155,6 +191,17 @@
             "Property" = "8:ProgramMenuFolder"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_0906495D9CC44FE383019ACC95992195"
+                    {
+                    "Name" = "8:netWYrks"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_1D99689244A64B4B92B767995C004A9F"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_505CC1E598E140E49927494409312648"
@@ -197,14 +244,14 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Anagramatron"
         "ProductCode" = "8:{9D8DCFC2-3D8D-4B3F-B768-A3B25C4D0DD5}"
-        "PackageCode" = "8:{34AB991E-6B5E-46C5-9E33-80057C0B9EF1}"
+        "PackageCode" = "8:{33FD1532-536E-4CF6-8D99-17591D1EB8E7}"
         "UpgradeCode" = "8:{2D5CD08D-AEBB-479E-93C4-574E7D70F942}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.5.0"
         "Manufacturer" = "8:netWYrks"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -317,6 +364,34 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_7839C5D70CE94B15B5EDA77EF23505DF"
+            {
+            "Name" = "8:Anagramatron"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_A98C5240775B40F5823299A9A5DD7F13"
+            "Folder" = "8:_0906495D9CC44FE383019ACC95992195"
+            "WorkingFolder" = "8:_B47B7FEA50484E07AFE71FDF938C7C82"
+            "Icon" = "8:_BCF6E700DF204A2581C9235FF0FD497E"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_FC54B04A4B3440D7A98C064FE8A6BA15"
+            {
+            "Name" = "8:Anagramatron"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_A98C5240775B40F5823299A9A5DD7F13"
+            "Folder" = "8:_505CC1E598E140E49927494409312648"
+            "WorkingFolder" = "8:_B47B7FEA50484E07AFE71FDF938C7C82"
+            "Icon" = "8:_BCF6E700DF204A2581C9235FF0FD497E"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
