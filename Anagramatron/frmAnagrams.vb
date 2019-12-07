@@ -6,7 +6,7 @@ Imports System.Text.RegularExpressions
 Imports System.Web.Script.Serialization
 Public Class FrmAnagrams
 #Region "variables"
-    Public bStop As Boolean
+    Public isStopped As Boolean
     Dim bFindLargest As Boolean
     Dim keyArray As Byte()
     Dim WordsFound As Long
@@ -53,11 +53,12 @@ Public Class FrmAnagrams
         Me.Close()
     End Sub
     Private Sub CmdGetAnagrams_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnGetAnagrams.Click
+        isStopped = False
         Try
             Dim iMin As Integer = Val(TxtMinLen.Text) + 0
             Dim iMax As Integer = Val(TxtMaxLen.Text) + 0
             If Not ValidateText(iMin, iMax) Then Exit Sub
-            bStop = False
+            isStopped = False
             SetButtons(False, False, True)
             lblProgress.Text = "---Start---"
             TxtAnagrams.Text = ""
@@ -76,7 +77,7 @@ Public Class FrmAnagrams
                     My.Application.DoEvents()
                     Using Dictionary As New StreamReader(Path.Combine(My.Settings.WordListFolder, My.Settings.CodedWordList))
                         Do Until Dictionary.EndOfStream
-                            If bStop Then
+                            If isStopped Then
                                 lblProgress.Text = "--Stopped--"
                                 SetButtons(True, True, False)
                                 ClearBrowser("Double-click a word to see definitions")
@@ -130,7 +131,7 @@ Public Class FrmAnagrams
         SetButtons(True, True, False)
     End Sub
     Private Sub CmdInterrupt_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnInterrupt.Click
-        bStop = True
+        isStopped = True
     End Sub
     Private Sub FrmAnagrams_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         lblCopyright.Text = My.Application.Info.Copyright
@@ -141,13 +142,14 @@ Public Class FrmAnagrams
         InitialiseDecryptor()
     End Sub
     Private Sub SolveCrossword(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnXword.Click
+        isStopped = False
         If TxtPattern.TextLength = 0 Then
             MsgBox("You must provide a pattern with ? for missing letters", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Error")
         Else
             TxtPattern.Text = Replace(TxtPattern.Text, " ", "")
-            Dim regex As New RegularExpressions.Regex("[^a-zA-Z?]")
+            Dim regex As New RegularExpressions.Regex("[^a-zA-Z?*]")
             If regex.IsMatch(TxtPattern.Text) = True Then
-                MsgBox("The pattern can only be letters or ?", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Error")
+                MsgBox("The pattern can only be letters, * or ?", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Error")
             Else
                 lblProgress.Text = "---Start---"
                 lblProgress.Refresh()
@@ -160,7 +162,7 @@ Public Class FrmAnagrams
                 CurrLen = CInt(TxtMaxLen.Text)
                 Using Dictionary As New StreamReader(Path.Combine(My.Settings.WordListFolder, My.Settings.CodedWordList))
                     Do Until Dictionary.EndOfStream
-                        If bStop Then
+                        If isStopped Then
                             lblProgress.Text = "--Stopped--"
                             SetButtons(True, True, False)
                             Exit Sub
@@ -187,8 +189,10 @@ Public Class FrmAnagrams
         SetButtons(True, True, False)
     End Sub
     Private Sub TxtPattern_TextChanged(sender As Object, e As EventArgs) Handles TxtPattern.TextChanged
-        TxtMinLen.Text = CStr(TxtPattern.TextLength)
-        TxtMaxLen.Text = CStr(TxtPattern.TextLength)
+        If TxtPattern.TextLength > 0 And TxtLetters.TextLength = 0 Then
+            TxtMinLen.Text = ""
+            TxtMaxLen.Text = CStr(TxtPattern.TextLength)
+        End If
     End Sub
     Private Sub FindDefinitionsForSelectedWord(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TxtAnagrams.MouseDoubleClick
         If TxtAnagrams.TextLength > 0 Then
@@ -346,6 +350,16 @@ Public Class FrmAnagrams
         Else
             ClearBrowser("No response")
         End If
+    End Sub
+    Private Sub BtnClear_Click(sender As Object, e As EventArgs) Handles BtnClear.Click
+        TxtAnagrams.Text = ""
+        ClearBrowser()
+        TxtLetters.Text = ""
+        TxtMaxLen.Text = ""
+        TxtMinLen.Text = ""
+        TxtPattern.Text = ""
+        lblProgress.Text = ""
+        lblWordCount.Text = ""
     End Sub
 #End Region
 End Class

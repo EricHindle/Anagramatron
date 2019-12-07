@@ -48,6 +48,7 @@ Partial Class FrmAnagrams
         Me.BtnXword = New System.Windows.Forms.Button()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.WebBrowser1 = New System.Windows.Forms.WebBrowser()
+        Me.BtnClear = New System.Windows.Forms.Button()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -205,39 +206,39 @@ Partial Class FrmAnagrams
         'BtnGetAnagrams
         '
         Me.BtnGetAnagrams.BackColor = System.Drawing.Color.Thistle
-        Me.BtnGetAnagrams.Location = New System.Drawing.Point(13, 320)
+        Me.BtnGetAnagrams.Location = New System.Drawing.Point(13, 323)
         Me.BtnGetAnagrams.Margin = New System.Windows.Forms.Padding(4)
         Me.BtnGetAnagrams.Name = "BtnGetAnagrams"
         Me.BtnGetAnagrams.Size = New System.Drawing.Size(132, 27)
         Me.BtnGetAnagrams.TabIndex = 14
         Me.BtnGetAnagrams.Text = "Find Anagrams"
         Me.ToolTip1.SetToolTip(Me.BtnGetAnagrams, "Click to start finding anagrams")
-        Me.BtnGetAnagrams.UseVisualStyleBackColor = False
+        Me.BtnGetAnagrams.UseVisualStyleBackColor = True
         '
         'BtnInterrupt
         '
         Me.BtnInterrupt.BackColor = System.Drawing.Color.Thistle
         Me.BtnInterrupt.Enabled = False
-        Me.BtnInterrupt.Location = New System.Drawing.Point(13, 396)
+        Me.BtnInterrupt.Location = New System.Drawing.Point(13, 427)
         Me.BtnInterrupt.Margin = New System.Windows.Forms.Padding(4)
         Me.BtnInterrupt.Name = "BtnInterrupt"
         Me.BtnInterrupt.Size = New System.Drawing.Size(83, 27)
         Me.BtnInterrupt.TabIndex = 15
         Me.BtnInterrupt.Text = "Interrupt"
         Me.ToolTip1.SetToolTip(Me.BtnInterrupt, "Click to stop looking for anagrams")
-        Me.BtnInterrupt.UseVisualStyleBackColor = False
+        Me.BtnInterrupt.UseVisualStyleBackColor = True
         '
         'BtnAnagClose
         '
         Me.BtnAnagClose.BackColor = System.Drawing.Color.Thistle
-        Me.BtnAnagClose.Location = New System.Drawing.Point(13, 431)
+        Me.BtnAnagClose.Location = New System.Drawing.Point(13, 482)
         Me.BtnAnagClose.Margin = New System.Windows.Forms.Padding(4)
         Me.BtnAnagClose.Name = "BtnAnagClose"
         Me.BtnAnagClose.Size = New System.Drawing.Size(83, 27)
         Me.BtnAnagClose.TabIndex = 16
         Me.BtnAnagClose.Text = "Close"
         Me.ToolTip1.SetToolTip(Me.BtnAnagClose, "Close the program")
-        Me.BtnAnagClose.UseVisualStyleBackColor = False
+        Me.BtnAnagClose.UseVisualStyleBackColor = True
         '
         'lblProgress
         '
@@ -287,13 +288,13 @@ Partial Class FrmAnagrams
         'BtnXword
         '
         Me.BtnXword.BackColor = System.Drawing.Color.Thistle
-        Me.BtnXword.Location = New System.Drawing.Point(13, 354)
+        Me.BtnXword.Location = New System.Drawing.Point(12, 366)
         Me.BtnXword.Name = "BtnXword"
         Me.BtnXword.Size = New System.Drawing.Size(132, 27)
         Me.BtnXword.TabIndex = 20
         Me.BtnXword.Text = "Crossword Solver"
         Me.ToolTip1.SetToolTip(Me.BtnXword, "Enter a pattern and find all matching words")
-        Me.BtnXword.UseVisualStyleBackColor = False
+        Me.BtnXword.UseVisualStyleBackColor = True
         '
         'SplitContainer1
         '
@@ -324,6 +325,15 @@ Partial Class FrmAnagrams
         Me.WebBrowser1.Size = New System.Drawing.Size(509, 383)
         Me.WebBrowser1.TabIndex = 23
         '
+        'BtnClear
+        '
+        Me.BtnClear.Location = New System.Drawing.Point(815, 93)
+        Me.BtnClear.Name = "BtnClear"
+        Me.BtnClear.Size = New System.Drawing.Size(75, 31)
+        Me.BtnClear.TabIndex = 24
+        Me.BtnClear.Text = "Clear"
+        Me.BtnClear.UseVisualStyleBackColor = True
+        '
         'FrmAnagrams
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 19.0!)
@@ -331,6 +341,7 @@ Partial Class FrmAnagrams
         Me.BackColor = System.Drawing.Color.Lavender
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.ClientSize = New System.Drawing.Size(906, 564)
+        Me.Controls.Add(Me.BtnClear)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.BtnXword)
         Me.Controls.Add(Me.lblVersion)
@@ -392,4 +403,5 @@ Partial Class FrmAnagrams
     Friend WithEvents BtnXword As System.Windows.Forms.Button
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents WebBrowser1 As WebBrowser
+    Friend WithEvents BtnClear As Button
 End Class
