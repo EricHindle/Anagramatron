@@ -61,7 +61,7 @@ Public Class FrmAnagrams
             isStopped = False
             SetButtons(False, False, True)
             lblProgress.Text = "---Start---"
-            TxtAnagrams.Text = ""
+            LstWords.Items.Clear()
             ClearBrowser()
             If iMax > TxtLetters.Text.Length Then
                 iMax = CStr(TxtLetters.TextLength)
@@ -72,9 +72,9 @@ Public Class FrmAnagrams
             Do Until isComplete
                 For CurrLen = iMax To iMin Step -1
                     lblWordCount.Text = WordsFound
-                    TxtAnagrams.Text = TxtAnagrams.Text & If(TxtAnagrams.TextLength > 0, vbCrLf, "") & "---" & CurrLen & "---"
+                    LstWords.Items.Add("---" & CurrLen & "---")
                     lblProgress.Text = CurrLen & " letters"
-                    My.Application.DoEvents()
+                    Me.Refresh()
                     Using Dictionary As New StreamReader(Path.Combine(My.Settings.WordListFolder, My.Settings.CodedWordList))
                         Do Until Dictionary.EndOfStream
                             If isStopped Then
@@ -101,11 +101,11 @@ Public Class FrmAnagrams
                                 Next Ct
                                 If TestWord = "" Then
                                     If TxtPattern.Text = "" Or DictWord Like TxtPattern.Text Then
-                                        TxtAnagrams.Text = TxtAnagrams.Text & vbCrLf & DictWord
+                                        LstWords.Items.Add(DictWord)
+                                        LstWords.Refresh()
                                         WordsFound += 1
                                         lblWordCount.Text = WordsFound
                                     End If
-                                    My.Application.DoEvents()
                                 End If
                             End If
                         Loop
@@ -134,6 +134,7 @@ Public Class FrmAnagrams
         isStopped = True
     End Sub
     Private Sub FrmAnagrams_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Initialise
         lblCopyright.Text = My.Application.Info.Copyright
         lblVersion.Text = "Version: " & My.Application.Info.Version.Major &
         "." & My.Application.Info.Version.Minor &
@@ -141,49 +142,62 @@ Public Class FrmAnagrams
         "." & My.Application.Info.Version.Build
         InitialiseDecryptor()
     End Sub
+    Private Sub Initialise()
+        If My.Settings.CallUpgrade = 0 Then
+            My.Settings.Upgrade()
+            My.Settings.CallUpgrade = 1
+            My.Settings.Save()
+        End If
+        LogUtil.LogFolder = My.Settings.LogFolder
+        LogUtil.StartLogging()
+    End Sub
     Private Sub SolveCrossword(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnXword.Click
         isStopped = False
         If TxtPattern.TextLength = 0 Then
             MsgBox("You must provide a pattern with ? for missing letters", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Error")
         Else
-            TxtPattern.Text = Replace(TxtPattern.Text, " ", "")
-            Dim regex As New RegularExpressions.Regex("[^a-zA-Z?*]")
-            If regex.IsMatch(TxtPattern.Text) = True Then
-                MsgBox("The pattern can only be letters, * or ?", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Error")
+            If String.IsNullOrWhiteSpace(TxtCrosswordLength.Text) OrElse Not IsNumeric(TxtCrosswordLength.Text) Then
+                MsgBox("You must provide a length for the required word", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Error")
             Else
-                lblProgress.Text = "---Start---"
-                lblProgress.Refresh()
-                WordsFound = 0
-                lblWordCount.Text = WordsFound
-                lblWordCount.Refresh()
-                TxtAnagrams.Text = ""
-                ClearBrowser()
-                SetButtons(False, False, True)
-                CurrLen = CInt(TxtMaxLen.Text)
-                Using Dictionary As New StreamReader(Path.Combine(My.Settings.WordListFolder, My.Settings.CodedWordList))
-                    Do Until Dictionary.EndOfStream
-                        If isStopped Then
-                            lblProgress.Text = "--Stopped--"
-                            SetButtons(True, True, False)
-                            Exit Sub
-                        End If
-                        toEncryptArray = Convert.FromBase64String(Dictionary.ReadLine)
-                        resultArray = CTransform1.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length)
-                        DictWord = UTF8Encoding.UTF8.GetString(resultArray)
-                        DictWord = DictWord.Replace(" ", "").Replace("'", "").Replace("-", "").ToLower()
-                        WordLen = DictWord.Length
-                        If WordLen = CurrLen Then
-                            If DictWord Like TxtPattern.Text Then
-                                TxtAnagrams.Text = TxtAnagrams.Text & If(TxtAnagrams.TextLength > 0, vbCrLf, "") & DictWord
-                                WordsFound += 1
-                                lblWordCount.Text = WordsFound
+                TxtPattern.Text = Replace(TxtPattern.Text, " ", "")
+                Dim regex As New RegularExpressions.Regex("[^a-zA-Z?*]")
+                If regex.IsMatch(TxtPattern.Text) = True Then
+                    MsgBox("The pattern can only be letters, * or ?", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Error")
+                Else
+                    lblProgress.Text = "---Start---"
+                    lblProgress.Refresh()
+                    WordsFound = 0`
+                    lblWordCount.Text = WordsFound
+                    lblWordCount.Refresh()
+                    LstWords.Items.Clear()
+                    ClearBrowser()
+                    SetButtons(False, False, True)
+                    CurrLen = CInt(TxtCrosswordLength.Text)
+                    Using Dictionary As New StreamReader(Path.Combine(My.Settings.WordListFolder, My.Settings.CodedWordList))
+                        Do Until Dictionary.EndOfStream
+                            If isStopped Then
+                                lblProgress.Text = "--Stopped--"
+                                SetButtons(True, True, False)
+                                Exit Sub
                             End If
-                            My.Application.DoEvents()
-                        End If
-                    Loop
-                    Dictionary.Close()
-                End Using
-                lblProgress.Text = "---Done---"
+                            toEncryptArray = Convert.FromBase64String(Dictionary.ReadLine)
+                            resultArray = CTransform1.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length)
+                            DictWord = UTF8Encoding.UTF8.GetString(resultArray)
+                            DictWord = DictWord.Replace(" ", "").Replace("'", "").Replace("-", "").ToLower()
+                            WordLen = DictWord.Length
+                            If WordLen = CurrLen Then
+                                If DictWord Like TxtPattern.Text Then
+                                    LstWords.Items.Add(DictWord)
+                                    LstWords.Refresh()
+                                    WordsFound += 1
+                                    lblWordCount.Text = WordsFound
+                                End If
+                            End If
+                        Loop
+                        Dictionary.Close()
+                    End Using
+                    lblProgress.Text = "---Done---"
+                End If
             End If
         End If
         SetButtons(True, True, False)
@@ -194,21 +208,9 @@ Public Class FrmAnagrams
             TxtMaxLen.Text = CStr(TxtPattern.TextLength)
         End If
     End Sub
-    Private Sub FindDefinitionsForSelectedWord(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TxtAnagrams.MouseDoubleClick
-        If TxtAnagrams.TextLength > 0 Then
-            Dim sWord As String
-            Dim selstart As Integer = Math.Max(1, TxtAnagrams.SelectionStart)
-            Dim iend As Integer = TxtAnagrams.Text.IndexOf(vbCrLf, selstart)
-            If iend < 0 Then
-                iend = TxtAnagrams.Text.Length
-            End If
-            Dim istart As Integer = TxtAnagrams.Text.Substring(0, selstart).LastIndexOf(vbCrLf)
-            If istart < 0 Then
-                istart = 0
-            End If
-            TxtAnagrams.SelectionStart = istart
-            TxtAnagrams.SelectionLength = iend - istart
-            sWord = TxtAnagrams.SelectedText.Trim(vbCrLf).Trim(vbLf)
+    Private Sub LstWords_DoubleClick(sender As Object, e As EventArgs) Handles LstWords.DoubleClick
+        If LstWords.SelectedIndex > -1 Then
+            Dim sWord As String = LstWords.SelectedItem
             GetDefinitions(sWord)
         End If
     End Sub
@@ -242,7 +244,7 @@ Public Class FrmAnagrams
         BtnXword.Enabled = _crossword
     End Sub
     Private Sub ClearBrowser(Optional stext As String = "")
-        WebBrowser1.DocumentText = "<HTML>" & stext & "</HTML>"
+        WebBrowser1.DocumentText = "<HTML><body><div style='font-family:verdana'>" & stext & "</div></body></HTML>"
         WebBrowser1.Update()
     End Sub
     Private Sub InitialiseDecryptor()
@@ -276,7 +278,7 @@ Public Class FrmAnagrams
         Dim wikipage As String
         Dim extractDictionary As Dictionary(Of String, Object) = Nothing
         Try
-            Dim sr As System.IO.StreamReader = New System.IO.StreamReader(pResponse.GetResponseStream())
+            Dim sr As New System.IO.StreamReader(pResponse.GetResponseStream())
             Dim jss As New JavaScriptSerializer()
             wikipage = sr.ReadToEnd
             extractDictionary = jss.Deserialize(Of Dictionary(Of String, Object))(wikipage)
@@ -289,7 +291,7 @@ Public Class FrmAnagrams
         Dim _html As New StringBuilder()
         Dim _languageExtract As Object = Nothing
         Try
-            _html.Append("<HTML>")
+            _html.Append("<HTML><body><div style='font-family:verdana'>")
             _html.Append("<h2>").Append(_word).Append("</h2>")
             extractDictionary.TryGetValue("en", _languageExtract)
             If _languageExtract Is Nothing Then extractDictionary.TryGetValue("other", _languageExtract)
@@ -303,7 +305,7 @@ Public Class FrmAnagrams
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Exception")
         End Try
-        _html.Append("</HTML>")
+        _html.Append("</div></body></HTML>")
         Return _html
     End Function
     Private Shared Sub GetDefinitions(_html As StringBuilder, parts As Dictionary(Of String, Object))
@@ -352,7 +354,7 @@ Public Class FrmAnagrams
         End If
     End Sub
     Private Sub BtnClear_Click(sender As Object, e As EventArgs) Handles BtnClear.Click
-        TxtAnagrams.Text = ""
+        LstWords.Items.Clear()
         ClearBrowser()
         TxtLetters.Text = ""
         TxtMaxLen.Text = ""
@@ -361,5 +363,16 @@ Public Class FrmAnagrams
         lblProgress.Text = ""
         lblWordCount.Text = ""
     End Sub
+
+    Private Sub FrmAnagrams_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        LogUtil.Info("Closing", MyBase.Name)
+    End Sub
+
+    Private Sub BtnShowLog_Click(sender As Object, e As EventArgs) Handles BtnShowLog.Click
+        Using _log As New FrmLogViewer
+            _log.ShowDialog()
+        End Using
+    End Sub
+
 #End Region
 End Class

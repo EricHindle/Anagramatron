@@ -94,6 +94,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
     }
@@ -172,7 +180,7 @@
         {
             "{994432C3-9487-495D-8656-3E829A8DBDDE}:_0CE32C0A01E144CCA04301C9ED245D0D"
             {
-            "DefaultLocation" = "8:[WindowsVolume]\\Anagramatron"
+            "DefaultLocation" = "8:D:\\Anagramatron"
             "Name" = "8:Anagramatron"
             "AlwaysCreate" = "11:TRUE"
             "Condition" = "8:"
@@ -180,6 +188,17 @@
             "Property" = "8:NEWPROPERTY1"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_E5C48D2868F446C5A2D9D2EA15905AA6"
+                    {
+                    "Name" = "8:Logs"
+                    "AlwaysCreate" = "11:TRUE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_7653BD132A36402A84700A33BA7F5C18"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_5018905599C240B58AC333AEA80A5B1F"
@@ -217,7 +236,7 @@
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_B47B7FEA50484E07AFE71FDF938C7C82"
             {
-            "DefaultLocation" = "8:[ProgramFilesFolder][Manufacturer]\\[ProductName]"
+            "DefaultLocation" = "8:D:\\[Manufacturer]\\[ProductName]"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:FALSE"
             "Condition" = "8:"
@@ -244,7 +263,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Anagramatron"
         "ProductCode" = "8:{9D8DCFC2-3D8D-4B3F-B768-A3B25C4D0DD5}"
-        "PackageCode" = "8:{33FD1532-536E-4CF6-8D99-17591D1EB8E7}"
+        "PackageCode" = "8:{A9625BC9-0BF2-4791-9A35-B9727708DCB2}"
         "UpgradeCode" = "8:{2D5CD08D-AEBB-479E-93C4-574E7D70F942}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
