@@ -9,7 +9,7 @@ Public Class FrmAnagrams
     Public isStopped As Boolean
     Dim bFindLargest As Boolean
     Dim keyArray As Byte()
-    Dim WordsFound As Long
+    Dim WordsFound As Integer
     Dim toEncryptArray As Byte()
     Dim resultArray As Byte()
     Dim DictWord As String
@@ -19,6 +19,8 @@ Public Class FrmAnagrams
     Dim CharPos As Integer
     Dim WordLen As Integer
     Dim CurrLen As Integer
+    Dim _language As String
+    Dim _languages As String() = {"en", "sco", "fr", "de", "es", "pt", "da", "nl", "ro", "la", "af", "nrm", "ca", "oc", "other"}
 #End Region
 #Region "properties"
     Dim tdes As TripleDESCryptoServiceProvider
@@ -166,7 +168,7 @@ Public Class FrmAnagrams
                 Else
                     lblProgress.Text = "---Start---"
                     lblProgress.Refresh()
-                    WordsFound = 0`
+                    WordsFound = 0
                     lblWordCount.Text = WordsFound
                     lblWordCount.Refresh()
                     LstWords.Items.Clear()
@@ -293,14 +295,20 @@ Public Class FrmAnagrams
         Try
             _html.Append("<HTML><body><div style='font-family:verdana'>")
             _html.Append("<h2>").Append(_word).Append("</h2>")
-            extractDictionary.TryGetValue("en", _languageExtract)
-            If _languageExtract Is Nothing Then extractDictionary.TryGetValue("other", _languageExtract)
+            For Each _language In _languages
+                extractDictionary.TryGetValue(_language, _languageExtract)
+                If _languageExtract IsNot Nothing Then
+                    Exit For
+                End If
+            Next
             If _languageExtract IsNot Nothing Then
                 For Each parts As Dictionary(Of String, Object) In _languageExtract
                     GetPartOfSpeech(_html, parts)
                     GetLanguage(_html, parts)
                     GetDefinitions(_html, parts)
                 Next
+            Else
+                _html.Append("<h5>").Append("Not found in selected languages").Append("</h5>")
             End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Exception")
@@ -316,9 +324,9 @@ Public Class FrmAnagrams
         End If
     End Sub
     Private Shared Sub GetLanguage(_html As StringBuilder, parts As Dictionary(Of String, Object))
-        Dim _language As String = ""
-        parts.TryGetValue("language", _language)
-        If _language IsNot Nothing Then _html.Append("<h5>").Append(_language).Append("</h5>")
+        Dim _lang As String = ""
+        parts.TryGetValue("language", _lang)
+        If _lang IsNot Nothing Then _html.Append("<h5>").Append(_lang).Append("</h5>")
     End Sub
     Private Shared Function GetPartOfSpeech(_html As StringBuilder, parts As Dictionary(Of String, Object)) As String
         Dim _partOfSpeech As String = ""
