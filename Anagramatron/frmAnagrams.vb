@@ -207,7 +207,8 @@ Public Class FrmAnagrams
     Private Sub TxtPattern_TextChanged(sender As Object, e As EventArgs) Handles TxtPattern.TextChanged
         If TxtPattern.TextLength > 0 And TxtLetters.TextLength = 0 Then
             TxtMinLen.Text = ""
-            TxtMaxLen.Text = CStr(TxtPattern.TextLength)
+            TxtMaxLen.Text = ""
+            TxtCrosswordLength.Text = CStr(TxtPattern.TextLength)
         End If
     End Sub
     Private Sub LstWords_DoubleClick(sender As Object, e As EventArgs) Handles LstWords.DoubleClick
@@ -370,6 +371,7 @@ Public Class FrmAnagrams
         TxtPattern.Text = ""
         lblProgress.Text = ""
         lblWordCount.Text = ""
+        TxtCrosswordLength.Text = ""
     End Sub
 
     Private Sub FrmAnagrams_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
@@ -380,6 +382,10 @@ Public Class FrmAnagrams
         Using _log As New FrmLogViewer
             _log.ShowDialog()
         End Using
+    End Sub
+
+    Private Sub LstWords_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LstWords.SelectedIndexChanged
+
     End Sub
 
 #End Region

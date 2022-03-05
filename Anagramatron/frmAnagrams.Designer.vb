@@ -46,12 +46,12 @@ Partial Class FrmAnagrams
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.BtnXword = New System.Windows.Forms.Button()
         Me.BtnShowLog = New System.Windows.Forms.Button()
+        Me.TxtCrosswordLength = New System.Windows.Forms.TextBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.LstWords = New System.Windows.Forms.ListBox()
         Me.WebBrowser1 = New System.Windows.Forms.WebBrowser()
         Me.BtnClear = New System.Windows.Forms.Button()
         Me.Label6 = New System.Windows.Forms.Label()
-        Me.TxtCrosswordLength = New System.Windows.Forms.TextBox()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -308,6 +308,16 @@ Partial Class FrmAnagrams
         Me.ToolTip1.SetToolTip(Me.BtnShowLog, "Close the program")
         Me.BtnShowLog.UseVisualStyleBackColor = True
         '
+        'TxtCrosswordLength
+        '
+        Me.TxtCrosswordLength.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtCrosswordLength.Location = New System.Drawing.Point(634, 97)
+        Me.TxtCrosswordLength.Margin = New System.Windows.Forms.Padding(4)
+        Me.TxtCrosswordLength.Name = "TxtCrosswordLength"
+        Me.TxtCrosswordLength.Size = New System.Drawing.Size(55, 27)
+        Me.TxtCrosswordLength.TabIndex = 27
+        Me.ToolTip1.SetToolTip(Me.TxtCrosswordLength, "Maximum length of words to be found")
+        '
         'SplitContainer1
         '
         Me.SplitContainer1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -365,16 +375,6 @@ Partial Class FrmAnagrams
         Me.Label6.Size = New System.Drawing.Size(133, 19)
         Me.Label6.TabIndex = 26
         Me.Label6.Text = "Crossword Length :"
-        '
-        'TxtCrosswordLength
-        '
-        Me.TxtCrosswordLength.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtCrosswordLength.Location = New System.Drawing.Point(634, 97)
-        Me.TxtCrosswordLength.Margin = New System.Windows.Forms.Padding(4)
-        Me.TxtCrosswordLength.Name = "TxtCrosswordLength"
-        Me.TxtCrosswordLength.Size = New System.Drawing.Size(55, 27)
-        Me.TxtCrosswordLength.TabIndex = 27
-        Me.ToolTip1.SetToolTip(Me.TxtCrosswordLength, "Maximum length of words to be found")
         '
         'FrmAnagrams
         '

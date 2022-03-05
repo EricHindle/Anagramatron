@@ -17,9 +17,7 @@
     <OptionCompare>Binary</OptionCompare>
     <OptionStrict>Off</OptionStrict>
     <OptionInfer>On</OptionInfer>
-    <IsWebBootstrapper>true</IsWebBootstrapper>
-    <ManifestCertificateThumbprint>19A9429E10B2172BDAB20CD8E10F4DE2B79F9685</ManifestCertificateThumbprint>
-    <ManifestKeyFile>Anagramatron_1_TemporaryKey.pfx</ManifestKeyFile>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <GenerateManifests>false</GenerateManifests>
     <SignManifests>false</SignManifests>
     <ApplicationIcon>anagramatron.ico</ApplicationIcon>
@@ -29,9 +27,9 @@
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
     <TargetFrameworkProfile />
-    <PublishUrl>ftp://94.136.40.103/anagramatron/</PublishUrl>
+    <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Web</InstallFrom>
+    <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Background</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -39,7 +37,6 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://www.netwyrks.co.uk/anagramatron/</InstallUrl>
     <ProductName>Anagramatron</ProductName>
     <PublisherName>netWYrks</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
@@ -164,8 +161,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Anagramatron_1_TemporaryKey.pfx" />
-    <None Include="Anagramatron_TemporaryKey.pfx" />
     <None Include="app.config" />
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
