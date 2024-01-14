@@ -162,10 +162,11 @@ Public Class FrmAnagrams
                 MsgBox("You must provide a length for the required word", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Error")
             Else
                 TxtPattern.Text = Replace(TxtPattern.Text, " ", "")
-                Dim regex As New RegularExpressions.Regex("[^a-zA-Z?*]")
+                Dim regex As New RegularExpressions.Regex("[^a-zA-Z?/*]")
                 If regex.IsMatch(TxtPattern.Text) = True Then
-                    MsgBox("The pattern can only be letters, * or ?", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Error")
+                    MsgBox("The pattern can only be letters, / * or ?", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Error")
                 Else
+                    TxtPattern.Text = TxtPattern.Text.Replace("/", "?")
                     lblProgress.Text = "---Start---"
                     lblProgress.Refresh()
                     WordsFound = 0
