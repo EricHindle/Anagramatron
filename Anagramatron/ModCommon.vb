@@ -1,5 +1,5 @@
 ﻿Imports System.Globalization
-
+Imports HindlewareLib.Logging
 Module ModCommon
 #Region "constants"
     Private Const MODULE_NAME As String = "modCommon"

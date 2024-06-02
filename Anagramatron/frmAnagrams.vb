@@ -4,6 +4,7 @@ Imports System.Security.Cryptography
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Web.Script.Serialization
+Imports HindlewareLib.Logging
 Public Class FrmAnagrams
 #Region "variables"
     Public isStopped As Boolean
@@ -161,7 +162,7 @@ Public Class FrmAnagrams
             If String.IsNullOrWhiteSpace(TxtCrosswordLength.Text) OrElse Not IsNumeric(TxtCrosswordLength.Text) Then
                 MsgBox("You must provide a length for the required word", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Error")
             Else
-                TxtPattern.Text = Replace(TxtPattern.Text, " ", "")
+                TxtPattern.Text = Replace(TxtPattern.Text, " ", "").ToLower
                 Dim regex As New RegularExpressions.Regex("[^a-zA-Z?/*]")
                 If regex.IsMatch(TxtPattern.Text) = True Then
                     MsgBox("The pattern can only be letters, / * or ?", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Error")
@@ -380,13 +381,16 @@ Public Class FrmAnagrams
     End Sub
 
     Private Sub BtnShowLog_Click(sender As Object, e As EventArgs) Handles BtnShowLog.Click
-        Using _log As New FrmLogViewer
-            _log.ShowDialog()
+        Using _logView As New FrmLogViewer
+            _logView.FormPosition = My.Settings.LogViewPos
+            _logView.ZoomValue = My.Settings.logZoomValue
+            _logView.IsZoomOn = My.Settings.LogZoomOn
+            _logView.ShowDialog()
+            My.Settings.LogViewPos = _logView.FormPosition
+            My.Settings.logZoomValue = _logView.ZoomValue
+            My.Settings.LogZoomOn = _logView.IsZoomOn
+            My.Settings.Save()
         End Using
-    End Sub
-
-    Private Sub LstWords_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LstWords.SelectedIndexChanged
-
     End Sub
 
 #End Region
