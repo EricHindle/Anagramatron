@@ -58,8 +58,8 @@ Public Class FrmAnagrams
         lblCopyright.Text = My.Application.Info.Copyright
         lblVersion.Text = "Version: " & My.Application.Info.Version.Major &
         "." & My.Application.Info.Version.Minor &
-        "." & My.Application.Info.Version.Revision &
-        "." & My.Application.Info.Version.Build
+        "." & My.Application.Info.Version.Build &
+        "." & My.Application.Info.Version.Revision
         InitialiseDecryptor()
     End Sub
     Private Sub LstWords_DoubleClick(sender As Object, e As EventArgs) Handles LstWords.DoubleClick
