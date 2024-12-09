@@ -133,10 +133,10 @@ Public Class FrmAnagrams
     Private Sub TxtLetters_TextChanged(sender As Object, e As EventArgs) Handles TxtLetters.TextChanged
         TxtMinLen.Text = TxtLetters.TextLength
         TxtMaxLen.Text = TxtLetters.TextLength
-        bFindLargest = True
+        ChkFindLargest.Checked = True
     End Sub
     Private Sub TxtMinMax_TextChanged(sender As Object, e As EventArgs) Handles TxtMinLen.TextChanged, TxtMaxLen.TextChanged
-        bFindLargest = False
+        ChkFindLargest.Checked = False
     End Sub
     Private Sub BtnClear_Click(sender As Object, e As EventArgs) Handles BtnClear.Click
         LstWords.Items.Clear()
@@ -421,5 +421,9 @@ Public Class FrmAnagrams
         End Try
         Return _webResponse
     End Function
+
+    Private Sub ChkFindLargest_CheckedChanged(sender As Object, e As EventArgs) Handles ChkFindLargest.CheckedChanged
+        bFindLargest = ChkFindLargest.Checked
+    End Sub
 #End Region
 End Class

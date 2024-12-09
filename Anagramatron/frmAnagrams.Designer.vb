@@ -52,6 +52,7 @@ Partial Class FrmAnagrams
         Me.WebBrowser1 = New System.Windows.Forms.WebBrowser()
         Me.BtnClear = New System.Windows.Forms.Button()
         Me.Label6 = New System.Windows.Forms.Label()
+        Me.ChkFindLargest = New System.Windows.Forms.CheckBox()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -108,7 +109,7 @@ Partial Class FrmAnagrams
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(75, 135)
+        Me.Label1.Location = New System.Drawing.Point(75, 161)
         Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(82, 19)
@@ -175,7 +176,7 @@ Partial Class FrmAnagrams
         '
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.Location = New System.Drawing.Point(70, 188)
+        Me.Label8.Location = New System.Drawing.Point(70, 196)
         Me.Label8.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(79, 19)
@@ -241,7 +242,7 @@ Partial Class FrmAnagrams
         Me.lblProgress.BackColor = System.Drawing.SystemColors.AppWorkspace
         Me.lblProgress.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblProgress.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblProgress.Location = New System.Drawing.Point(68, 211)
+        Me.lblProgress.Location = New System.Drawing.Point(67, 219)
         Me.lblProgress.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblProgress.Name = "lblProgress"
         Me.lblProgress.Size = New System.Drawing.Size(82, 26)
@@ -324,7 +325,7 @@ Partial Class FrmAnagrams
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.SplitContainer1.Location = New System.Drawing.Point(164, 138)
+        Me.SplitContainer1.Location = New System.Drawing.Point(164, 161)
         Me.SplitContainer1.Name = "SplitContainer1"
         '
         'SplitContainer1.Panel1
@@ -334,7 +335,7 @@ Partial Class FrmAnagrams
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.WebBrowser1)
-        Me.SplitContainer1.Size = New System.Drawing.Size(618, 384)
+        Me.SplitContainer1.Size = New System.Drawing.Size(618, 361)
         Me.SplitContainer1.SplitterDistance = 178
         Me.SplitContainer1.TabIndex = 23
         '
@@ -345,7 +346,7 @@ Partial Class FrmAnagrams
         Me.LstWords.ItemHeight = 19
         Me.LstWords.Location = New System.Drawing.Point(0, 0)
         Me.LstWords.Name = "LstWords"
-        Me.LstWords.Size = New System.Drawing.Size(174, 380)
+        Me.LstWords.Size = New System.Drawing.Size(174, 357)
         Me.LstWords.TabIndex = 0
         '
         'WebBrowser1
@@ -354,7 +355,7 @@ Partial Class FrmAnagrams
         Me.WebBrowser1.Location = New System.Drawing.Point(0, 0)
         Me.WebBrowser1.MinimumSize = New System.Drawing.Size(20, 20)
         Me.WebBrowser1.Name = "WebBrowser1"
-        Me.WebBrowser1.Size = New System.Drawing.Size(432, 380)
+        Me.WebBrowser1.Size = New System.Drawing.Size(432, 357)
         Me.WebBrowser1.TabIndex = 23
         '
         'BtnClear
@@ -376,6 +377,16 @@ Partial Class FrmAnagrams
         Me.Label6.TabIndex = 26
         Me.Label6.Text = "Crossword Length :"
         '
+        'ChkFindLargest
+        '
+        Me.ChkFindLargest.AutoSize = True
+        Me.ChkFindLargest.Location = New System.Drawing.Point(210, 131)
+        Me.ChkFindLargest.Name = "ChkFindLargest"
+        Me.ChkFindLargest.Size = New System.Drawing.Size(140, 23)
+        Me.ChkFindLargest.TabIndex = 28
+        Me.ChkFindLargest.Text = "Find largest word"
+        Me.ChkFindLargest.UseVisualStyleBackColor = True
+        '
         'FrmAnagrams
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 19.0!)
@@ -383,6 +394,7 @@ Partial Class FrmAnagrams
         Me.BackColor = System.Drawing.Color.Lavender
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.ClientSize = New System.Drawing.Size(794, 561)
+        Me.Controls.Add(Me.ChkFindLargest)
         Me.Controls.Add(Me.TxtCrosswordLength)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.BtnShowLog)
@@ -452,4 +464,5 @@ Partial Class FrmAnagrams
     Friend WithEvents LstWords As ListBox
     Friend WithEvents Label6 As Label
     Friend WithEvents TxtCrosswordLength As TextBox
+    Friend WithEvents ChkFindLargest As CheckBox
 End Class
