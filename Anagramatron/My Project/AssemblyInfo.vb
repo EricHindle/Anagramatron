@@ -11,8 +11,8 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTitle("Anagramatron")> 
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("netWYrks")> 
-<Assembly: AssemblyProduct("Anagramatron")> 
-<Assembly: AssemblyCopyright("Copyright ©Eric Hindle 2010-2012")> 
+<Assembly: AssemblyProduct("Anagramatron")>
+<Assembly: AssemblyCopyright("Copyright ©Eric Hindle 2010-2012, 2025")>
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.8.2.*")>
-<Assembly: AssemblyFileVersion("1.8.2.0")>
+<Assembly: AssemblyVersion("1.9.0.*")>
+<Assembly: AssemblyFileVersion("1.9.0.0")>

@@ -53,6 +53,8 @@ Partial Class FrmAnagrams
         Me.BtnClear = New System.Windows.Forms.Button()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.ChkFindLargest = New System.Windows.Forms.CheckBox()
+        Me.BtnDefine = New System.Windows.Forms.Button()
+        Me.TxtDefineWord = New System.Windows.Forms.TextBox()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -120,7 +122,7 @@ Partial Class FrmAnagrams
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(274, 100)
+        Me.Label2.Location = New System.Drawing.Point(274, 101)
         Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(129, 19)
@@ -153,7 +155,7 @@ Partial Class FrmAnagrams
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(75, 100)
+        Me.Label5.Location = New System.Drawing.Point(75, 101)
         Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(126, 19)
@@ -225,17 +227,18 @@ Partial Class FrmAnagrams
         '
         'BtnAnagClose
         '
-        Me.BtnAnagClose.BackColor = System.Drawing.Color.Thistle
-        Me.BtnAnagClose.FlatAppearance.BorderColor = System.Drawing.Color.Gray
-        Me.BtnAnagClose.FlatAppearance.BorderSize = 3
-        Me.BtnAnagClose.Location = New System.Drawing.Point(13, 520)
+        Me.BtnAnagClose.BackColor = System.Drawing.Color.SteelBlue
+        Me.BtnAnagClose.FlatAppearance.BorderColor = System.Drawing.Color.MidnightBlue
+        Me.BtnAnagClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnAnagClose.ForeColor = System.Drawing.Color.White
+        Me.BtnAnagClose.Location = New System.Drawing.Point(13, 517)
         Me.BtnAnagClose.Margin = New System.Windows.Forms.Padding(4)
         Me.BtnAnagClose.Name = "BtnAnagClose"
         Me.BtnAnagClose.Size = New System.Drawing.Size(83, 32)
         Me.BtnAnagClose.TabIndex = 16
         Me.BtnAnagClose.Text = "Close"
         Me.ToolTip1.SetToolTip(Me.BtnAnagClose, "Close the program")
-        Me.BtnAnagClose.UseVisualStyleBackColor = True
+        Me.BtnAnagClose.UseVisualStyleBackColor = False
         '
         'lblProgress
         '
@@ -361,17 +364,21 @@ Partial Class FrmAnagrams
         'BtnClear
         '
         Me.BtnClear.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BtnClear.Location = New System.Drawing.Point(703, 93)
+        Me.BtnClear.BackColor = System.Drawing.Color.AliceBlue
+        Me.BtnClear.FlatAppearance.BorderColor = System.Drawing.Color.MidnightBlue
+        Me.BtnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnClear.ForeColor = System.Drawing.Color.MidnightBlue
+        Me.BtnClear.Location = New System.Drawing.Point(705, 95)
         Me.BtnClear.Name = "BtnClear"
         Me.BtnClear.Size = New System.Drawing.Size(75, 31)
         Me.BtnClear.TabIndex = 24
         Me.BtnClear.Text = "Clear"
-        Me.BtnClear.UseVisualStyleBackColor = True
+        Me.BtnClear.UseVisualStyleBackColor = False
         '
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(494, 100)
+        Me.Label6.Location = New System.Drawing.Point(494, 101)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(133, 19)
         Me.Label6.TabIndex = 26
@@ -387,6 +394,28 @@ Partial Class FrmAnagrams
         Me.ChkFindLargest.Text = "Find largest word"
         Me.ChkFindLargest.UseVisualStyleBackColor = True
         '
+        'BtnDefine
+        '
+        Me.BtnDefine.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.BtnDefine.FlatAppearance.BorderColor = System.Drawing.Color.MidnightBlue
+        Me.BtnDefine.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnDefine.ForeColor = System.Drawing.Color.MidnightBlue
+        Me.BtnDefine.Location = New System.Drawing.Point(411, 131)
+        Me.BtnDefine.Name = "BtnDefine"
+        Me.BtnDefine.Size = New System.Drawing.Size(75, 27)
+        Me.BtnDefine.TabIndex = 29
+        Me.BtnDefine.Text = "Define"
+        Me.BtnDefine.UseVisualStyleBackColor = False
+        '
+        'TxtDefineWord
+        '
+        Me.TxtDefineWord.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxtDefineWord.Location = New System.Drawing.Point(498, 131)
+        Me.TxtDefineWord.Name = "TxtDefineWord"
+        Me.TxtDefineWord.Size = New System.Drawing.Size(238, 27)
+        Me.TxtDefineWord.TabIndex = 30
+        '
         'FrmAnagrams
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 19.0!)
@@ -394,6 +423,8 @@ Partial Class FrmAnagrams
         Me.BackColor = System.Drawing.Color.Lavender
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.ClientSize = New System.Drawing.Size(794, 561)
+        Me.Controls.Add(Me.TxtDefineWord)
+        Me.Controls.Add(Me.BtnDefine)
         Me.Controls.Add(Me.ChkFindLargest)
         Me.Controls.Add(Me.TxtCrosswordLength)
         Me.Controls.Add(Me.Label6)
@@ -465,4 +496,6 @@ Partial Class FrmAnagrams
     Friend WithEvents Label6 As Label
     Friend WithEvents TxtCrosswordLength As TextBox
     Friend WithEvents ChkFindLargest As CheckBox
+    Friend WithEvents BtnDefine As Button
+    Friend WithEvents TxtDefineWord As TextBox
 End Class

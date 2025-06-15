@@ -141,13 +141,14 @@ Public Class FrmAnagrams
     Private Sub BtnClear_Click(sender As Object, e As EventArgs) Handles BtnClear.Click
         LstWords.Items.Clear()
         ClearBrowser()
-        TxtLetters.Text = ""
-        TxtMaxLen.Text = ""
-        TxtMinLen.Text = ""
-        TxtPattern.Text = ""
-        lblProgress.Text = ""
-        lblWordCount.Text = ""
-        TxtCrosswordLength.Text = ""
+        TxtLetters.Text = String.Empty
+        TxtMaxLen.Text = String.Empty
+        TxtMinLen.Text = String.Empty
+        TxtPattern.Text = String.Empty
+        lblProgress.Text = String.Empty
+        lblWordCount.Text = String.Empty
+        TxtCrosswordLength.Text = String.Empty
+        TxtDefineWord.Text = String.Empty
     End Sub
     Private Sub FrmAnagrams_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         LogUtil.Info("Closing", MyBase.Name)
@@ -276,8 +277,10 @@ Public Class FrmAnagrams
         BtnXword.Enabled = _crossword
     End Sub
     Private Sub ClearBrowser(Optional stext As String = "")
-        WebBrowser1.DocumentText = "<HTML><body><div style='font-family:verdana'>" & stext & "</div></body></HTML>"
-        WebBrowser1.Update()
+        WebBrowser1.Navigate("about:blank")
+        WebBrowser1.Document.OpenNew(False)
+        WebBrowser1.Document.Write("<HTML><body><div style='font-family:verdana'>" & stext & "</div></body></HTML>")
+        WebBrowser1.Refresh()
     End Sub
     Private Sub InitialiseDecryptor()
         Tdes1 = New TripleDESCryptoServiceProvider()
@@ -294,15 +297,32 @@ Public Class FrmAnagrams
 #End Region
 #Region "wiktionary"
     Private Sub DisplayDefinitions(ByVal sWord As String, extractDictionary As Dictionary(Of String, Object))
+        LogUtil.LogInfo("Displaying definitions", MyBase.Name)
         If extractDictionary IsNot Nothing AndAlso extractDictionary.Count > 0 Then
-            Dim _html As StringBuilder = BuildDefinitionHtml(extractDictionary, sWord)
-            WebBrowser1.DocumentText = _html.ToString
-            WebBrowser1.Update()
+            LoadDefinitionIntoBrowser(sWord, extractDictionary)
         Else
-            ClearBrowser("No meaningful response")
+            Dim _propercase As String = StrConv(sWord, VbStrConv.ProperCase)
+            extractDictionary = SearchWebForWord(_propercase)
+            If extractDictionary IsNot Nothing AndAlso extractDictionary.Count > 0 Then
+                LoadDefinitionIntoBrowser(_propercase, extractDictionary)
+            Else
+                ClearBrowser("No meaningful response")
+            End If
         End If
     End Sub
+
+    Private Sub LoadDefinitionIntoBrowser(sWord As String, extractDictionary As Dictionary(Of String, Object))
+        Dim _html As StringBuilder = BuildDefinitionHtml(extractDictionary, sWord)
+        LogUtil.LogInfo("Loading browser", MyBase.Name)
+        Dim _page As String = _html.ToString
+        WebBrowser1.Navigate("about:blank")
+        WebBrowser1.Document.OpenNew(False)
+        WebBrowser1.Document.Write(_page)
+        WebBrowser1.Refresh()
+    End Sub
+
     Private Function BuildDefinitionHtml(extractDictionary As Dictionary(Of String, Object), _word As String) As StringBuilder
+        LogUtil.LogInfo("Building HTML", MyBase.Name)
         Dim _html As New StringBuilder()
         Try
             _html.Append("<HTML><body><div style='font-family:verdana'>")
@@ -311,7 +331,16 @@ Public Class FrmAnagrams
             If isPlural AndAlso Not String.IsNullOrEmpty(_singular) Then
                 extractDictionary = SearchWebForWord(_singular)
                 isPlural = False
-                AppendDefinitions(extractDictionary, _singular, _html)
+                If extractDictionary IsNot Nothing AndAlso extractDictionary.Count > 0 Then
+                    AppendDefinitions(extractDictionary, _singular, _html)
+                End If
+            End If
+            Dim _propercase As String = StrConv(_word, VbStrConv.ProperCase)
+            If _propercase <> _word Then
+                extractDictionary = SearchWebForWord(_propercase)
+                If extractDictionary IsNot Nothing AndAlso extractDictionary.Count > 0 Then
+                    AppendDefinitions(extractDictionary, _propercase, _html)
+                End If
             End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Exception")
@@ -367,9 +396,13 @@ Public Class FrmAnagrams
         Dim _singular As String = String.Empty
         _html.Append("<ul>")
         For Each definition As Dictionary(Of String, Object) In _definitionsExtract
-            Dim _thisDefSingular As String = AddDefinitionToList(_html, definition)
-            If String.IsNullOrEmpty(_singular) Then
-                _singular = _thisDefSingular
+            Dim _definitionText As String = String.Empty
+            definition.TryGetValue("definition", _definitionText)
+            If Not String.IsNullOrEmpty(_definitionText) Then
+                Dim _thisDefSingular As String = AddDefinitionToList(_html, definition)
+                If String.IsNullOrEmpty(_singular) Then
+                    _singular = _thisDefSingular
+                End If
             End If
         Next
         _html.Append("</ul>")
@@ -388,6 +421,7 @@ Public Class FrmAnagrams
         Return _singular
     End Function
     Private Function SearchWebForWord(ByVal sWord As String) As Dictionary(Of String, Object)
+        LogUtil.LogInfo("Searching web for word " & sWord, MyBase.Name)
         Dim extractDictionary As New Dictionary(Of String, Object)
         Dim _response As WebResponse = NavigateToUrl(My.Settings.wikiExtractSearch & sWord)
         If _response IsNot Nothing Then
@@ -425,5 +459,13 @@ Public Class FrmAnagrams
     Private Sub ChkFindLargest_CheckedChanged(sender As Object, e As EventArgs) Handles ChkFindLargest.CheckedChanged
         bFindLargest = ChkFindLargest.Checked
     End Sub
+
+    Private Sub BtnDefine_Click(sender As Object, e As EventArgs) Handles BtnDefine.Click
+        If TxtDefineWord.TextLength > 0 Then
+            Dim sWord As String = TxtDefineWord.Text
+            DisplayDefinitions(sWord, SearchWebForWord(sWord))
+        End If
+    End Sub
+
 #End Region
 End Class
