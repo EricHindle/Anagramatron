@@ -8,14 +8,11 @@
     <Setting Name="wikiExtractSearch" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://en.wiktionary.org/api/rest_v1/page/definition/</Value>
     </Setting>
-    <Setting Name="WordListFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\Anagramatron</Value>
-    </Setting>
     <Setting Name="DebugOn" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="LogFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\Anagramatron\Logs</Value>
+      <Value Profile="(Default)">Logs</Value>
     </Setting>
     <Setting Name="CallUpgrade" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
@@ -28,6 +25,12 @@
     </Setting>
     <Setting Name="logZoomValue" Type="System.String" Scope="User">
       <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="MainFormPos" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DataFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Anagramatron</Value>
     </Setting>
   </Settings>
 </SettingsFile>

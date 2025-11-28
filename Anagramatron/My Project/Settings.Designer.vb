@@ -15,7 +15,7 @@ Option Explicit On
 Namespace My
     
     <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0"),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.14.0.0"),  _
      Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
     Partial Friend NotInheritable Class MySettings
         Inherits Global.System.Configuration.ApplicationSettingsBase
@@ -80,18 +80,6 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("D:\Anagramatron")>  _
-        Public Property WordListFolder() As String
-            Get
-                Return CType(Me("WordListFolder"),String)
-            End Get
-            Set
-                Me("WordListFolder") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
         Public Property DebugOn() As Boolean
             Get
@@ -104,7 +92,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("D:\Anagramatron\Logs")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Logs")>  _
         Public Property LogFolder() As String
             Get
                 Return CType(Me("LogFolder"),String)
@@ -159,6 +147,30 @@ Namespace My
             End Get
             Set
                 Me("logZoomValue") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property MainFormPos() As String
+            Get
+                Return CType(Me("MainFormPos"),String)
+            End Get
+            Set
+                Me("MainFormPos") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Anagramatron")>  _
+        Public Property DataFolder() As String
+            Get
+                Return CType(Me("DataFolder"),String)
+            End Get
+            Set
+                Me("DataFolder") = value
             End Set
         End Property
     End Class

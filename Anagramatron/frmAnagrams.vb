@@ -1,4 +1,12 @@
-﻿Imports System.IO
+﻿' Hindleware
+' Copyright (c) 2025 Eric Hindle
+' All rights reserved.
+'
+' Author Eric Hindle
+'
+
+Imports System.Environment
+Imports System.IO
 Imports System.Net
 Imports System.Security.Cryptography
 Imports System.Text
@@ -6,23 +14,30 @@ Imports System.Text.RegularExpressions
 Imports System.Web.Script.Serialization
 Imports HindlewareLib.Logging
 Public Class FrmAnagrams
+#Region "constants"
+    Private Const PLURAL_OF As String = "plural of "
+    Private Const PAST_OF As String = "simple past and past participle of "
+    Private Const OBSOLETE_OF As String = "Obsolete form of "
+    Private Const ALT_OF As String = "Alternative form of "
+#End Region
 #Region "variables"
     Public isStopped As Boolean
-    Dim bFindLargest As Boolean
-    Dim keyArray As Byte()
-    Dim WordsFound As Integer
-    Dim toEncryptArray As Byte()
-    Dim resultArray As Byte()
-    Dim DictWord As String
-    Dim TestWord As String
-    Dim TestChars As String
-    Dim TestChar As String
-    Dim CharPos As Integer
-    Dim WordLen As Integer
-    Dim CurrLen As Integer
-    Dim _language As String
-    Dim _languages As String() = {"en", "sco", "fr", "de", "es", "pt", "da", "nl", "ro", "la", "af", "nrm", "ca", "oc", "other"}
-    Dim isPlural As Boolean
+    Private bFindLargest As Boolean
+    Private keyArray As Byte()
+    Private WordsFound As Integer
+    Private toEncryptArray As Byte()
+    Private resultArray As Byte()
+    Private DictWord As String
+    Private TestWord As String
+    Private TestChars As String
+    Private TestChar As String
+    Private CharPos As Integer
+    Private WordLen As Integer
+    Private CurrLen As Integer
+    Private _language As String
+    Private _languages As String() = {"en", "sco", "fr", "de", "es", "pt", "da", "nl", "ro", "la", "af", "nrm", "ca", "oc", "other"}
+    Private isPlural As Boolean
+    Private oAppDataPath As String
 #End Region
 #Region "properties"
     Dim tdes As TripleDESCryptoServiceProvider
@@ -94,7 +109,7 @@ Public Class FrmAnagrams
                     ClearBrowser()
                     SetButtons(False, False, True)
                     CurrLen = CInt(TxtCrosswordLength.Text)
-                    Using Dictionary As New StreamReader(Path.Combine(My.Settings.WordListFolder, My.Settings.CodedWordList))
+                    Using Dictionary As New StreamReader(Path.Combine(oAppDataPath, My.Settings.CodedWordList))
                         Do Until Dictionary.EndOfStream
                             If isStopped Then
                                 lblProgress.Text = "--Stopped--"
@@ -151,7 +166,9 @@ Public Class FrmAnagrams
         TxtDefineWord.Text = String.Empty
     End Sub
     Private Sub FrmAnagrams_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        LogUtil.Info("Closing", MyBase.Name)
+        LogUtil.LogInfo("Closing", MyBase.Name)
+        My.Settings.MainFormPos = SetFormPos(Me)
+        My.Settings.Save()
     End Sub
     Private Sub BtnShowLog_Click(sender As Object, e As EventArgs) Handles BtnShowLog.Click
         Using _logView As New FrmLogViewer
@@ -191,7 +208,7 @@ Public Class FrmAnagrams
                     LstWords.Items.Add("---" & CurrLen & "---")
                     lblProgress.Text = CurrLen & " letters"
                     Me.Refresh()
-                    Using Dictionary As New StreamReader(Path.Combine(My.Settings.WordListFolder, My.Settings.CodedWordList))
+                    Using Dictionary As New StreamReader(Path.Combine(oAppDataPath, My.Settings.CodedWordList))
                         Do Until Dictionary.EndOfStream
                             If isStopped Then
                                 lblProgress.Text = "--Stopped--"
@@ -246,6 +263,15 @@ Public Class FrmAnagrams
         ClearBrowser("Double-click a word to see definitions")
         SetButtons(True, True, False)
     End Sub
+    Private Sub ChkFindLargest_CheckedChanged(sender As Object, e As EventArgs) Handles ChkFindLargest.CheckedChanged
+        bFindLargest = ChkFindLargest.Checked
+    End Sub
+    Private Sub BtnDefine_Click(sender As Object, e As EventArgs) Handles BtnDefine.Click
+        If TxtDefineWord.TextLength > 0 Then
+            Dim sWord As String = TxtDefineWord.Text
+            DisplayDefinitions(sWord, SearchWebForWord(sWord))
+        End If
+    End Sub
 #End Region
 #Region "subroutines"
     Private Sub Initialise()
@@ -254,8 +280,10 @@ Public Class FrmAnagrams
             My.Settings.CallUpgrade = 1
             My.Settings.Save()
         End If
-        LogUtil.LogFolder = My.Settings.LogFolder
+        oAppDataPath = Path.Combine(GetFolderPath(SpecialFolder.CommonApplicationData), Path.Combine(My.Application.Info.CompanyName, My.Application.Info.AssemblyName))
+        LogUtil.LogFolder = Path.Combine(oAppDataPath, My.Settings.LogFolder)
         LogUtil.StartLogging()
+        GetFormPos(Me, My.Settings.MainFormPos)
     End Sub
     Private Function ValidateText(iMin As Integer, iMax As Integer) As Boolean
         Dim isValid As Boolean = True
@@ -310,7 +338,6 @@ Public Class FrmAnagrams
             End If
         End If
     End Sub
-
     Private Sub LoadDefinitionIntoBrowser(sWord As String, extractDictionary As Dictionary(Of String, Object))
         Dim _html As StringBuilder = BuildDefinitionHtml(extractDictionary, sWord)
         LogUtil.LogInfo("Loading browser", MyBase.Name)
@@ -320,7 +347,6 @@ Public Class FrmAnagrams
         WebBrowser1.Document.Write(_page)
         WebBrowser1.Refresh()
     End Sub
-
     Private Function BuildDefinitionHtml(extractDictionary As Dictionary(Of String, Object), _word As String) As StringBuilder
         LogUtil.LogInfo("Building HTML", MyBase.Name)
         Dim _html As New StringBuilder()
@@ -413,59 +439,57 @@ Public Class FrmAnagrams
         Dim _singular As String = String.Empty
         definition.TryGetValue("definition", _definitionText)
         Dim _pureText As String = Regex.Replace(_definitionText, "<.*?>", "")
-        If _pureText.Trim.StartsWith("plural of") Then
+        If _pureText.Trim.StartsWith(PLURAL_OF) Then
             isPlural = True
-            _singular = _pureText.Remove(0, 10)
+            _singular = _pureText.Remove(0, PLURAL_OF.Length)
+        End If
+        If _pureText.Trim.StartsWith(PAST_OF) Then
+            isPlural = True
+            _singular = _pureText.Remove(0, PAST_OF.Length)
+        End If
+        If _pureText.Trim.StartsWith(OBSOLETE_OF) Then
+            isPlural = True
+            _singular = _pureText.Remove(0, OBSOLETE_OF.Length)
+        End If
+        If _pureText.Trim.StartsWith(ALT_OF) Then
+            isPlural = True
+            _singular = _pureText.Remove(0, ALT_OF.Length)
         End If
         If _definitionText IsNot Nothing Then _html.Append("<li>").Append(Regex.Replace(_definitionText.ToString, "<.*?>", "")).Append("</li>")
-        Return _singular
+        Return _singular.Trim(".")
     End Function
     Private Function SearchWebForWord(ByVal sWord As String) As Dictionary(Of String, Object)
         LogUtil.LogInfo("Searching web for word " & sWord, MyBase.Name)
         Dim extractDictionary As New Dictionary(Of String, Object)
-        Dim _response As WebResponse = NavigateToUrl(My.Settings.wikiExtractSearch & sWord)
+        Dim _response As String = NavigateToUrl(My.Settings.wikiExtractSearch & sWord)
         If _response IsNot Nothing Then
-            extractDictionary = GetExtractFromResponse(_response)
+            If Not String.IsNullOrWhiteSpace(_response) Then
+                extractDictionary = GetExtractFromResponse(_response)
+            End If
         End If
         Return extractDictionary
     End Function
-    Public Function GetExtractFromResponse(pResponse As WebResponse) As Dictionary(Of String, Object)
-        Dim wikipage As String
+    Public Function GetExtractFromResponse(wikipage As String) As Dictionary(Of String, Object)
         Dim extractDictionary As Dictionary(Of String, Object) = Nothing
         Try
-            Dim sr As New System.IO.StreamReader(pResponse.GetResponseStream())
             Dim jss As New JavaScriptSerializer()
-            wikipage = sr.ReadToEnd
             extractDictionary = jss.Deserialize(Of Dictionary(Of String, Object))(wikipage)
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Exception")
         End Try
         Return extractDictionary
     End Function
-    Private Function NavigateToUrl(pSearchString As String) As WebResponse
-        Dim _webResponse As WebResponse = Nothing
-        Dim request As WebRequest
+    Private Function NavigateToUrl(pSearchString As String) As String
+        Dim _response As String = String.Empty
         Try
-            request = WebRequest.Create(pSearchString)
-            ' If required by the server, set the credentials.
-            request.Credentials = CredentialCache.DefaultCredentials
-            _webResponse = request.GetResponse()
+            Dim _webClient As New WebClient
+            _webClient.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36 Edg/83.0.478.45")
+            _response = _webClient.DownloadString(pSearchString)
         Catch ex As Exception
             ClearBrowser(ex.Message)
         End Try
-        Return _webResponse
+        Return _response
     End Function
-
-    Private Sub ChkFindLargest_CheckedChanged(sender As Object, e As EventArgs) Handles ChkFindLargest.CheckedChanged
-        bFindLargest = ChkFindLargest.Checked
-    End Sub
-
-    Private Sub BtnDefine_Click(sender As Object, e As EventArgs) Handles BtnDefine.Click
-        If TxtDefineWord.TextLength > 0 Then
-            Dim sWord As String = TxtDefineWord.Text
-            DisplayDefinitions(sWord, SearchWebForWord(sWord))
-        End If
-    End Sub
 
 #End Region
 End Class

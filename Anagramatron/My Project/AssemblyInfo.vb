@@ -8,9 +8,9 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Anagramatron")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("netWYrks")> 
+<Assembly: AssemblyTitle("Anagramatron")>
+<Assembly: AssemblyDescription("Find anagrams and crossword solutions")>
+<Assembly: AssemblyCompany("hindleware")>
 <Assembly: AssemblyProduct("Anagramatron")>
 <Assembly: AssemblyCopyright("Copyright ©Eric Hindle 2010-2012, 2025")>
 <Assembly: AssemblyTrademark("")> 
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.9.0.*")>
-<Assembly: AssemblyFileVersion("1.9.0.0")>
+<Assembly: AssemblyVersion("1.11.0.*")>
+<Assembly: AssemblyFileVersion("1.11.0.0")>
