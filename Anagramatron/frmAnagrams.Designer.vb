@@ -55,6 +55,7 @@ Partial Class FrmAnagrams
         Me.ChkFindLargest = New System.Windows.Forms.CheckBox()
         Me.BtnDefine = New System.Windows.Forms.Button()
         Me.TxtDefineWord = New System.Windows.Forms.TextBox()
+        Me.Label7 = New System.Windows.Forms.Label()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -82,7 +83,7 @@ Partial Class FrmAnagrams
         Me.TxtPattern.Location = New System.Drawing.Point(152, 57)
         Me.TxtPattern.Margin = New System.Windows.Forms.Padding(4)
         Me.TxtPattern.Name = "TxtPattern"
-        Me.TxtPattern.Size = New System.Drawing.Size(499, 27)
+        Me.TxtPattern.Size = New System.Drawing.Size(515, 27)
         Me.TxtPattern.TabIndex = 1
         Me.ToolTip1.SetToolTip(Me.TxtPattern, "Pattern that words must match using ? for single letters, * for multiple characte" &
         "rs")
@@ -219,9 +220,9 @@ Partial Class FrmAnagrams
         Me.BtnInterrupt.Location = New System.Drawing.Point(13, 411)
         Me.BtnInterrupt.Margin = New System.Windows.Forms.Padding(4)
         Me.BtnInterrupt.Name = "BtnInterrupt"
-        Me.BtnInterrupt.Size = New System.Drawing.Size(83, 32)
+        Me.BtnInterrupt.Size = New System.Drawing.Size(124, 32)
         Me.BtnInterrupt.TabIndex = 15
-        Me.BtnInterrupt.Text = "Interrupt"
+        Me.BtnInterrupt.Text = "Interrupt Search"
         Me.ToolTip1.SetToolTip(Me.BtnInterrupt, "Click to stop looking for anagrams")
         Me.BtnInterrupt.UseVisualStyleBackColor = True
         '
@@ -308,7 +309,7 @@ Partial Class FrmAnagrams
         Me.BtnShowLog.Name = "BtnShowLog"
         Me.BtnShowLog.Size = New System.Drawing.Size(83, 32)
         Me.BtnShowLog.TabIndex = 25
-        Me.BtnShowLog.Text = "Log"
+        Me.BtnShowLog.Text = "Show Log"
         Me.ToolTip1.SetToolTip(Me.BtnShowLog, "Close the program")
         Me.BtnShowLog.UseVisualStyleBackColor = True
         '
@@ -338,6 +339,8 @@ Partial Class FrmAnagrams
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.WebBrowser1)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.TxtDefineWord)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.BtnDefine)
         Me.SplitContainer1.Size = New System.Drawing.Size(618, 361)
         Me.SplitContainer1.SplitterDistance = 178
         Me.SplitContainer1.TabIndex = 23
@@ -354,11 +357,13 @@ Partial Class FrmAnagrams
         '
         'WebBrowser1
         '
-        Me.WebBrowser1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.WebBrowser1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.WebBrowser1.Location = New System.Drawing.Point(0, 0)
         Me.WebBrowser1.MinimumSize = New System.Drawing.Size(20, 20)
         Me.WebBrowser1.Name = "WebBrowser1"
-        Me.WebBrowser1.Size = New System.Drawing.Size(432, 357)
+        Me.WebBrowser1.Size = New System.Drawing.Size(432, 324)
         Me.WebBrowser1.TabIndex = 23
         '
         'BtnClear
@@ -387,7 +392,7 @@ Partial Class FrmAnagrams
         'ChkFindLargest
         '
         Me.ChkFindLargest.AutoSize = True
-        Me.ChkFindLargest.Location = New System.Drawing.Point(210, 131)
+        Me.ChkFindLargest.Location = New System.Drawing.Point(209, 131)
         Me.ChkFindLargest.Name = "ChkFindLargest"
         Me.ChkFindLargest.Size = New System.Drawing.Size(140, 23)
         Me.ChkFindLargest.TabIndex = 28
@@ -396,25 +401,37 @@ Partial Class FrmAnagrams
         '
         'BtnDefine
         '
+        Me.BtnDefine.AutoSize = True
         Me.BtnDefine.BackColor = System.Drawing.Color.LightSteelBlue
         Me.BtnDefine.FlatAppearance.BorderColor = System.Drawing.Color.MidnightBlue
         Me.BtnDefine.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnDefine.Font = New System.Drawing.Font("Calibri", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnDefine.ForeColor = System.Drawing.Color.MidnightBlue
-        Me.BtnDefine.Location = New System.Drawing.Point(411, 131)
+        Me.BtnDefine.Location = New System.Drawing.Point(12, 327)
         Me.BtnDefine.Name = "BtnDefine"
-        Me.BtnDefine.Size = New System.Drawing.Size(75, 27)
+        Me.BtnDefine.Size = New System.Drawing.Size(60, 29)
         Me.BtnDefine.TabIndex = 29
         Me.BtnDefine.Text = "Define"
         Me.BtnDefine.UseVisualStyleBackColor = False
         '
         'TxtDefineWord
         '
-        Me.TxtDefineWord.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.TxtDefineWord.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TxtDefineWord.Location = New System.Drawing.Point(498, 131)
+        Me.TxtDefineWord.Location = New System.Drawing.Point(103, 327)
         Me.TxtDefineWord.Name = "TxtDefineWord"
         Me.TxtDefineWord.Size = New System.Drawing.Size(238, 27)
         Me.TxtDefineWord.TabIndex = 30
+        '
+        'Label7
+        '
+        Me.Label7.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label7.Font = New System.Drawing.Font("Calibri", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.Location = New System.Drawing.Point(674, 57)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(93, 27)
+        Me.Label7.TabIndex = 31
+        Me.Label7.Text = "Replace missing characters with ?"
         '
         'FrmAnagrams
         '
@@ -423,8 +440,7 @@ Partial Class FrmAnagrams
         Me.BackColor = System.Drawing.Color.Lavender
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.ClientSize = New System.Drawing.Size(794, 561)
-        Me.Controls.Add(Me.TxtDefineWord)
-        Me.Controls.Add(Me.BtnDefine)
+        Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.ChkFindLargest)
         Me.Controls.Add(Me.TxtCrosswordLength)
         Me.Controls.Add(Me.Label6)
@@ -461,6 +477,7 @@ Partial Class FrmAnagrams
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.PerformLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
         Me.ResumeLayout(False)
@@ -498,4 +515,5 @@ Partial Class FrmAnagrams
     Friend WithEvents ChkFindLargest As CheckBox
     Friend WithEvents BtnDefine As Button
     Friend WithEvents TxtDefineWord As TextBox
+    Friend WithEvents Label7 As Label
 End Class

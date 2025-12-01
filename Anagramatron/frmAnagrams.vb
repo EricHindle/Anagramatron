@@ -19,6 +19,7 @@ Public Class FrmAnagrams
     Private Const PAST_OF As String = "simple past and past participle of "
     Private Const OBSOLETE_OF As String = "Obsolete form of "
     Private Const ALT_OF As String = "Alternative form of "
+    Private Const GERUND_OF As String = "present participle and gerund of "
 #End Region
 #Region "variables"
     Public isStopped As Boolean
@@ -36,8 +37,9 @@ Public Class FrmAnagrams
     Private CurrLen As Integer
     Private _language As String
     Private _languages As String() = {"en", "sco", "fr", "de", "es", "pt", "da", "nl", "ro", "la", "af", "nrm", "ca", "oc", "other"}
-    Private isPlural As Boolean
+    Private isReferral As Boolean
     Private oAppDataPath As String
+    Private oReferralText As New List(Of String)
 #End Region
 #Region "properties"
     Dim tdes As TripleDESCryptoServiceProvider
@@ -284,6 +286,11 @@ Public Class FrmAnagrams
         LogUtil.LogFolder = Path.Combine(oAppDataPath, My.Settings.LogFolder)
         LogUtil.StartLogging()
         GetFormPos(Me, My.Settings.MainFormPos)
+        oReferralText.Add(PLURAL_OF)
+        oReferralText.Add(PAST_OF)
+        oReferralText.Add(ALT_OF)
+        oReferralText.Add(OBSOLETE_OF)
+        oReferralText.Add(GERUND_OF)
     End Sub
     Private Function ValidateText(iMin As Integer, iMax As Integer) As Boolean
         Dim isValid As Boolean = True
@@ -352,15 +359,17 @@ Public Class FrmAnagrams
         Dim _html As New StringBuilder()
         Try
             _html.Append("<HTML><body><div style='font-family:verdana'>")
-            isPlural = False
-            Dim _singular As String = AppendDefinitions(extractDictionary, _word, _html)
-            If isPlural AndAlso Not String.IsNullOrEmpty(_singular) Then
-                extractDictionary = SearchWebForWord(_singular)
-                isPlural = False
+            isReferral = False
+            Dim _baseWord As String = AppendDefinitions(extractDictionary, _word, _html)
+            ' If definition refers to the base word of the search word, also look up the base word
+            If isReferral AndAlso Not String.IsNullOrEmpty(_baseWord) Then
+                extractDictionary = SearchWebForWord(_baseWord)
+                isReferral = False
                 If extractDictionary IsNot Nothing AndAlso extractDictionary.Count > 0 Then
-                    AppendDefinitions(extractDictionary, _singular, _html)
+                    AppendDefinitions(extractDictionary, _baseWord, _html)
                 End If
             End If
+            ' Look up the word in Proper case
             Dim _propercase As String = StrConv(_word, VbStrConv.ProperCase)
             If _propercase <> _word Then
                 extractDictionary = SearchWebForWord(_propercase)
@@ -377,6 +386,7 @@ Public Class FrmAnagrams
     Private Function AppendDefinitions(extractDictionary As Dictionary(Of String, Object), _word As String, _html As StringBuilder) As String
         Dim _singular As String = String.Empty
         _html.Append("<h2>").Append(_word).Append("</h2>")
+        ' Get the extract for the first language in the language list that has one
         Dim _languageExtract As Object = Nothing
         For Each _language In _languages
             extractDictionary.TryGetValue(_language, _languageExtract)
@@ -384,6 +394,7 @@ Public Class FrmAnagrams
                 Exit For
             End If
         Next
+        ' If an extract has been found
         If _languageExtract IsNot Nothing Then
             For Each parts As Dictionary(Of String, Object) In _languageExtract
                 GetPartOfSpeech(_html, parts)
@@ -436,27 +447,21 @@ Public Class FrmAnagrams
     End Function
     Private Function AddDefinitionToList(_html As StringBuilder, definition As Dictionary(Of String, Object)) As String
         Dim _definitionText As String = ""
-        Dim _singular As String = String.Empty
+        Dim _baseWord As String = String.Empty
         definition.TryGetValue("definition", _definitionText)
         Dim _pureText As String = Regex.Replace(_definitionText, "<.*?>", "")
-        If _pureText.Trim.StartsWith(PLURAL_OF) Then
-            isPlural = True
-            _singular = _pureText.Remove(0, PLURAL_OF.Length)
+        For Each _referral As String In oReferralText
+            If _pureText.Trim.StartsWith(_referral) Then
+                isReferral = True
+                _baseWord = _pureText.Remove(0, _referral.Length)
+                Exit For
+            End If
+        Next
+        If _definitionText IsNot Nothing Then
+
+            _html.Append("<li>").Append(Regex.Replace(_definitionText.ToString, "<.*?>", "")).Append("</li>")
         End If
-        If _pureText.Trim.StartsWith(PAST_OF) Then
-            isPlural = True
-            _singular = _pureText.Remove(0, PAST_OF.Length)
-        End If
-        If _pureText.Trim.StartsWith(OBSOLETE_OF) Then
-            isPlural = True
-            _singular = _pureText.Remove(0, OBSOLETE_OF.Length)
-        End If
-        If _pureText.Trim.StartsWith(ALT_OF) Then
-            isPlural = True
-            _singular = _pureText.Remove(0, ALT_OF.Length)
-        End If
-        If _definitionText IsNot Nothing Then _html.Append("<li>").Append(Regex.Replace(_definitionText.ToString, "<.*?>", "")).Append("</li>")
-        Return _singular.Trim(".")
+        Return _baseWord.Trim(".")
     End Function
     Private Function SearchWebForWord(ByVal sWord As String) As Dictionary(Of String, Object)
         LogUtil.LogInfo("Searching web for word " & sWord, MyBase.Name)
@@ -482,8 +487,10 @@ Public Class FrmAnagrams
     Private Function NavigateToUrl(pSearchString As String) As String
         Dim _response As String = String.Empty
         Try
-            Dim _webClient As New WebClient
-            _webClient.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36 Edg/83.0.478.45")
+            Dim _webClient As New WebClient With {
+                .Encoding = System.Text.Encoding.GetEncoding("utf-8")
+            }
+            _webClient.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
             _response = _webClient.DownloadString(pSearchString)
         Catch ex As Exception
             ClearBrowser(ex.Message)
