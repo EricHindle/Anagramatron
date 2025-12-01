@@ -17,9 +17,11 @@ Public Class FrmAnagrams
 #Region "constants"
     Private Const PLURAL_OF As String = "plural of "
     Private Const PAST_OF As String = "simple past and past participle of "
-    Private Const OBSOLETE_OF As String = "Obsolete form of "
-    Private Const ALT_OF As String = "Alternative form of "
+    Private Const OBSOLETE_OF As String = "obsolete form of "
+    Private Const ALT_OF As String = "alternative form of "
     Private Const GERUND_OF As String = "present participle and gerund of "
+    Private Const SPELLING_OF As String = "alternative spelling of "
+    Private Const SYNONYM_OF As String = "synonym of "
 #End Region
 #Region "variables"
     Public isStopped As Boolean
@@ -224,6 +226,8 @@ Public Class FrmAnagrams
         oReferralText.Add(ALT_OF)
         oReferralText.Add(OBSOLETE_OF)
         oReferralText.Add(GERUND_OF)
+        oReferralText.Add(SPELLING_OF)
+        oReferralText.Add(SYNONYM_OF)
     End Sub
     Private Sub InitialiseDecryptor()
         Tdes1 = New TripleDESCryptoServiceProvider()
@@ -380,24 +384,15 @@ Public Class FrmAnagrams
         LogUtil.LogInfo("Building HTML", MyBase.Name)
         Dim _html As New StringBuilder()
         Try
-            _html.Append("<HTML><body><div style='font-family:verdana'>")
-            isReferral = False
-            Dim _baseWord As String = BuildWordEntryHtml(extractDictionary, _word, _html)
-            ' If definition refers to the base word(s) of the search word, also look up the base word
-            If isReferral AndAlso Not String.IsNullOrEmpty(_baseWord) Then
-                extractDictionary = SearchWebForWord(_baseWord)
-                isReferral = False
-                If extractDictionary IsNot Nothing AndAlso extractDictionary.Count > 0 Then
-                    BuildWordEntryHtml(extractDictionary, _baseWord, _html)
-                End If
-            End If
-            ' Look up the word in Proper case
+            Dim oFullListOfReferences As New List(Of String)
             Dim _propercase As String = StrConv(_word, VbStrConv.ProperCase)
-            If _propercase <> _word Then
-                extractDictionary = SearchWebForWord(_propercase)
-                If extractDictionary IsNot Nothing AndAlso extractDictionary.Count > 0 Then
-                    BuildWordEntryHtml(extractDictionary, _propercase, _html)
-                End If
+            _html.Append("<HTML><body><div style='font-family:verdana'>")
+            Dim oReferences As New List(Of String) From {
+                _propercase
+            }
+            oReferences.AddRange(BuildWordEntryHtml(extractDictionary, _word, _html))
+            If oReferences.Count > 0 Then
+                ProcessReferences(oReferences, _html, oFullListOfReferences)
             End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Exception")
@@ -405,8 +400,26 @@ Public Class FrmAnagrams
         _html.Append("</div></body></HTML>")
         Return _html
     End Function
-    Private Function BuildWordEntryHtml(extractDictionary As Dictionary(Of String, Object), _word As String, _html As StringBuilder) As String
-        Dim _singular As String = String.Empty
+    Private Sub ProcessReferences(pListOfReferences As List(Of String), pHtml As StringBuilder, pFullList As List(Of String))
+        Dim _listOfNewReferences As New List(Of String)
+        For Each _reference As String In pListOfReferences
+            If pFullList.IndexOf(_reference) = -1 Then
+                _listOfNewReferences.Add(_reference)
+                pFullList.Add(_reference)
+            End If
+        Next
+        For Each _reference As String In _listOfNewReferences
+            Dim _extractDictionary As Dictionary(Of String, Object) = SearchWebForWord(_reference)
+            If _extractDictionary IsNot Nothing AndAlso _extractDictionary.Count > 0 Then
+                Dim _newListOfReferences As List(Of String) = BuildWordEntryHtml(_extractDictionary, _reference, pHtml)
+                If _newListOfReferences.Count > 0 Then
+                    ProcessReferences(_newListOfReferences, pHtml, pFullList)
+                End If
+            End If
+        Next
+    End Sub
+    Private Function BuildWordEntryHtml(extractDictionary As Dictionary(Of String, Object), _word As String, _html As StringBuilder) As List(Of String)
+        Dim _references As New List(Of String)
         _html.Append("<h2>").Append(_word).Append("</h2>")
         ' Get the extract for the first language in the language list that has one
         Dim _languageExtract As Object = Nothing
@@ -421,24 +434,21 @@ Public Class FrmAnagrams
             For Each parts As Dictionary(Of String, Object) In _languageExtract
                 AppendPartOfSpeechToHtml(_html, parts)
                 AppendLanguageToHtml(_html, parts)
-                Dim _thisExtractSinglular As String = AppendDefinitionsToHtml(_html, parts)
-                If String.IsNullOrEmpty(_singular) Then
-                    _singular = _thisExtractSinglular
-                End If
+                _references.AddRange(AppendDefinitionsToHtml(_html, parts))
             Next
         Else
             _html.Append("<h5>").Append("Not found in selected languages").Append("</h5>")
         End If
-        Return _singular
+        Return _references
     End Function
-    Private Function AppendDefinitionsToHtml(_html As StringBuilder, parts As Dictionary(Of String, Object)) As String
-        Dim _baseWord As String = String.Empty
+    Private Function AppendDefinitionsToHtml(_html As StringBuilder, parts As Dictionary(Of String, Object)) As List(Of String)
+        Dim _references As New List(Of String)
         Dim _definitionsExtract As Object = Nothing
         parts.TryGetValue("definitions", _definitionsExtract)
         If _definitionsExtract IsNot Nothing Then
-            _baseWord = BuildHtmlDefinitionList(_html, _definitionsExtract)
+            _references = BuildHtmlDefinitionList(_html, _definitionsExtract)
         End If
-        Return _baseWord
+        Return _references
     End Function
     Private Sub AppendLanguageToHtml(_html As StringBuilder, parts As Dictionary(Of String, Object))
         Dim _lang As String = ""
@@ -451,25 +461,22 @@ Public Class FrmAnagrams
         If _partOfSpeech IsNot Nothing Then _html.Append("<h3>").Append(_partOfSpeech).Append("</h3>")
         Return _partOfSpeech
     End Function
-    Private Function BuildHtmlDefinitionList(_html As StringBuilder, _definitionsExtract As Object) As String
-        Dim _baseWord As String = String.Empty
+    Private Function BuildHtmlDefinitionList(_html As StringBuilder, _definitionsExtract As Object) As List(Of String)
+        Dim _references As New List(Of String)
         _html.Append("<ul>")
         For Each definition As Dictionary(Of String, Object) In _definitionsExtract
             Dim _definitionText As String = String.Empty
             definition.TryGetValue("definition", _definitionText)
             If Not String.IsNullOrEmpty(_definitionText) Then
-                Dim _thisBaseWord As String = AddDefinitionToHtmlList(_html, definition)
-                If String.IsNullOrEmpty(_thisBaseWord) Then
-                    _baseWord = _thisBaseWord
-                End If
+                _references.AddRange(AddDefinitionToHtmlList(_html, definition))
             End If
         Next
         _html.Append("</ul>")
-        Return _baseWord
+        Return _references
     End Function
-    Private Function AddDefinitionToHtmlList(_html As StringBuilder, definition As Dictionary(Of String, Object)) As String
+    Private Function AddDefinitionToHtmlList(_html As StringBuilder, definition As Dictionary(Of String, Object)) As List(Of String)
         Dim _definitionText As String = ""
-        Dim _baseWord As String = String.Empty
+        Dim _references As New List(Of String)
         definition.TryGetValue("definition", _definitionText)
         '   Add definition to Html list
         If _definitionText IsNot Nothing Then
@@ -478,14 +485,20 @@ Public Class FrmAnagrams
         '   Check if definition refers to another word
         Dim _pureText As String = Regex.Replace(_definitionText, "<.*?>", "")
         For Each _referral As String In oReferralText
-            If _pureText.Trim.StartsWith(_referral) Then
+            If _pureText.Trim.ToLower().StartsWith(_referral) Then
                 isReferral = True
-                _baseWord = _pureText.Remove(0, _referral.Length)
+                Dim _rest As String = _pureText.Remove(0, _referral.Length).Trim(".").Trim
+                If _rest.Contains("(") Then
+                    Dim _bits As String() = Split(_rest, " ", 2)
+                    _references.Add(_bits(0))
+                Else
+                    _references.Add(_rest)
+                End If
                 Exit For
             End If
         Next
         '   return word referred to in definition
-        Return _baseWord.Trim(".")
+        Return _references
     End Function
     Private Function SearchWebForWord(ByVal sWord As String) As Dictionary(Of String, Object)
         LogUtil.LogInfo("Searching web for word " & sWord, MyBase.Name)
