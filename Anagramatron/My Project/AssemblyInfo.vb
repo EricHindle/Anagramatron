@@ -1,4 +1,10 @@
-﻿Imports System
+﻿' Hindleware
+' Copyright (c) 2025 Eric Hindle
+' All rights reserved.
+'
+' Author Eric Hindle
+'
+
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 
@@ -13,7 +19,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyCompany("hindleware")>
 <Assembly: AssemblyProduct("Anagramatron")>
 <Assembly: AssemblyCopyright("Copyright ©Eric Hindle 2010-2012, 2025")>
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
 

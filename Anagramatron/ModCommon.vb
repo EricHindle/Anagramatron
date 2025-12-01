@@ -1,4 +1,11 @@
-﻿Imports System.Globalization
+﻿' Hindleware
+' Copyright (c) 2025 Eric Hindle
+' All rights reserved.
+'
+' Author Eric Hindle
+'
+
+Imports System.Globalization
 Imports HindlewareLib.Logging
 Module ModCommon
 #Region "constants"
