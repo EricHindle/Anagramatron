@@ -18,7 +18,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Find anagrams and crossword solutions")>
 <Assembly: AssemblyCompany("hindleware")>
 <Assembly: AssemblyProduct("Anagramatron")>
-<Assembly: AssemblyCopyright("Copyright ©Eric Hindle 2010-2012, 2025")>
+<Assembly: AssemblyCopyright("©2010-25 eric hindle")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
@@ -37,5 +37,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.11.2.*")>
-<Assembly: AssemblyFileVersion("1.11.2.0")>
+<Assembly: AssemblyVersion("1.11.4.*")>
+<Assembly: AssemblyFileVersion("1.11.4.0")>

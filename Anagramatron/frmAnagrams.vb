@@ -16,12 +16,16 @@ Imports HindlewareLib.Logging
 Public Class FrmAnagrams
 #Region "constants"
     Private Const PLURAL_OF As String = "plural of "
-    Private Const PAST_OF As String = "simple past and past participle of "
+    Private Const SIMPLE_PAST_OF As String = "simple past and past participle of "
     Private Const OBSOLETE_OF As String = "obsolete form of "
     Private Const ALT_OF As String = "alternative form of "
     Private Const GERUND_OF As String = "present participle and gerund of "
     Private Const SPELLING_OF As String = "alternative spelling of "
     Private Const SYNONYM_OF As String = "synonym of "
+    Private Const PAST_OF As String = "past participle of "
+    Private Const PRESENT_OF As String = "present participle of "
+    Private Const EXHIBITING As String = "relating to, or exhibiting, "
+    Private Const RELATING_TO As String = "relating to"
 #End Region
 #Region "variables"
     Public isStopped As Boolean
@@ -74,11 +78,15 @@ Public Class FrmAnagrams
 #Region "form control handlers"
     Private Sub FrmAnagrams_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Initialise()
+
+        lblVersion.Text = System.String.Format(lblVersion.Text, My.Application.Info.Version.Major, My.Application.Info.Version.Minor, My.Application.Info.Version.Build)
+        lblCopyright.Text = My.Application.Info.Copyright
         lblCopyright.Text = My.Application.Info.Copyright
         lblVersion.Text = "Version: " & My.Application.Info.Version.Major &
         "." & My.Application.Info.Version.Minor &
         "." & My.Application.Info.Version.Build &
         "." & My.Application.Info.Version.Revision
+        LblCompany.Text = String.Format(LblCompany.Text, My.Application.Info.CompanyName)
         InitialiseDecryptor()
     End Sub
     Private Sub CmdAnagClose_Click(sender As System.Object, ByVal e As System.EventArgs) Handles BtnAnagClose.Click
@@ -223,11 +231,15 @@ Public Class FrmAnagrams
         GetFormPos(Me, My.Settings.MainFormPos)
         oReferralText.Add(PLURAL_OF)
         oReferralText.Add(PAST_OF)
+        oReferralText.Add(PRESENT_OF)
+        oReferralText.Add(SIMPLE_PAST_OF)
         oReferralText.Add(ALT_OF)
         oReferralText.Add(OBSOLETE_OF)
         oReferralText.Add(GERUND_OF)
         oReferralText.Add(SPELLING_OF)
         oReferralText.Add(SYNONYM_OF)
+        oReferralText.Add(EXHIBITING)
+        oReferralText.Add(RELATING_TO)
     End Sub
     Private Sub InitialiseDecryptor()
         Tdes1 = New TripleDESCryptoServiceProvider()
@@ -480,7 +492,10 @@ Public Class FrmAnagrams
         definition.TryGetValue("definition", _definitionText)
         '   Add definition to Html list
         If _definitionText IsNot Nothing Then
-            _html.Append("<li>").Append(Regex.Replace(_definitionText.ToString, "<.*?>", "")).Append("</li>")
+            '     _html.Append("<li>").Append(_definitionText.ToString).Append("</li>")
+            Dim text1 As String = Regex.Replace(_definitionText.ToString, "<a.*?>", "")
+            Dim text2 As String = Regex.Replace(text1, "</a.*?>", "")
+            _html.Append("<li>").Append(text2).Append("</li>")
         End If
         '   Check if definition refers to another word
         Dim _pureText As String = Regex.Replace(_definitionText, "<.*?>", "")
@@ -534,6 +549,7 @@ Public Class FrmAnagrams
         End Try
         Return _response
     End Function
+
 
 #End Region
 End Class
