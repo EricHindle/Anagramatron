@@ -81,5 +81,5 @@ dotnet_style_qualification_for_property = false:silent
 dotnet_style_qualification_for_method = false:silent
 dotnet_style_qualification_for_event = false:silent
 
-file_header_template = Hindleware\nCopyright (c) 2025 Eric Hindle\nAll rights reserved.\n\nAuthor Eric Hindle\n
+file_header_template = Hindleware\nCopyright (c) 2026 eric hindle\nAll rights reserved.\n\nAuthor Eric Hindle\n
 dotnet_style_prefer_collection_expression = true:suggestion

@@ -1,5 +1,5 @@
 ﻿' Hindleware
-' Copyright (c) 2025 Eric Hindle
+' Copyright (c) 2026 eric hindle
 ' All rights reserved.
 '
 ' Author Eric Hindle
@@ -18,7 +18,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Find anagrams and crossword solutions")>
 <Assembly: AssemblyCompany("hindleware")>
 <Assembly: AssemblyProduct("Anagramatron")>
-<Assembly: AssemblyCopyright("©2010-25 eric hindle")>
+<Assembly: AssemblyCopyright("© 2026 eric hindle")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>

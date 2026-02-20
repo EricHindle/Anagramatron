@@ -166,7 +166,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:HindlewareLib, Version=1.13.11.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:HindlewareLib, Version=1.13.13.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_4D955857B462E3F910089F89A6C5EA3A"
@@ -355,7 +355,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Anagramatron"
         "ProductCode" = "8:{9D8DCFC2-3D8D-4B3F-B768-A3B25C4D0DD5}"
-        "PackageCode" = "8:{C56B86FD-89E6-4378-95F8-7A356A4747CE}"
+        "PackageCode" = "8:{D39BBE4F-0445-4BA4-8398-64AFAE4ADA2E}"
         "UpgradeCode" = "8:{2D5CD08D-AEBB-479E-93C4-574E7D70F942}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -371,7 +371,7 @@
         "ARPCONTACT" = "8:Eric Hindle"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
-        "ARPURLINFOABOUT" = "8:"
+        "ARPURLINFOABOUT" = "8:hindleware.co.uk"
         "ARPPRODUCTICON" = "8:_BCF6E700DF204A2581C9235FF0FD497E"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"

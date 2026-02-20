@@ -119,13 +119,17 @@ Partial Class FrmAnagrams
         'Label1
         '
         Me.Label1.AutoSize = True
+        Me.Label1.BackColor = System.Drawing.Color.SteelBlue
+        Me.Label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label1.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(81, 194)
+        Me.Label1.ForeColor = System.Drawing.Color.White
+        Me.Label1.Location = New System.Drawing.Point(74, 187)
         Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(76, 38)
+        Me.Label1.Size = New System.Drawing.Size(78, 40)
         Me.Label1.TabIndex = 10
         Me.Label1.Text = "Possible" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "solutions :"
+        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label2
         '
@@ -173,7 +177,7 @@ Partial Class FrmAnagrams
         '
         'lblWordCount
         '
-        Me.lblWordCount.BackColor = System.Drawing.SystemColors.AppWorkspace
+        Me.lblWordCount.BackColor = System.Drawing.Color.LightGray
         Me.lblWordCount.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblWordCount.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblWordCount.Location = New System.Drawing.Point(564, 153)
@@ -207,6 +211,7 @@ Partial Class FrmAnagrams
         '
         'BtnGetAnagrams
         '
+        Me.BtnGetAnagrams.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.BtnGetAnagrams.BackColor = System.Drawing.Color.AliceBlue
         Me.BtnGetAnagrams.FlatAppearance.BorderColor = System.Drawing.Color.Gray
         Me.BtnGetAnagrams.FlatAppearance.BorderSize = 3
@@ -228,7 +233,7 @@ Partial Class FrmAnagrams
         Me.BtnInterrupt.FlatAppearance.BorderColor = System.Drawing.Color.MidnightBlue
         Me.BtnInterrupt.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnInterrupt.ForeColor = System.Drawing.Color.MidnightBlue
-        Me.BtnInterrupt.Location = New System.Drawing.Point(12, 403)
+        Me.BtnInterrupt.Location = New System.Drawing.Point(13, 403)
         Me.BtnInterrupt.Margin = New System.Windows.Forms.Padding(4)
         Me.BtnInterrupt.Name = "BtnInterrupt"
         Me.BtnInterrupt.Size = New System.Drawing.Size(124, 32)
@@ -244,7 +249,7 @@ Partial Class FrmAnagrams
         Me.BtnAnagClose.FlatAppearance.BorderColor = System.Drawing.Color.MidnightBlue
         Me.BtnAnagClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnAnagClose.ForeColor = System.Drawing.Color.White
-        Me.BtnAnagClose.Location = New System.Drawing.Point(13, 502)
+        Me.BtnAnagClose.Location = New System.Drawing.Point(34, 502)
         Me.BtnAnagClose.Margin = New System.Windows.Forms.Padding(4)
         Me.BtnAnagClose.Name = "BtnAnagClose"
         Me.BtnAnagClose.Size = New System.Drawing.Size(83, 32)
@@ -255,7 +260,7 @@ Partial Class FrmAnagrams
         '
         'lblProgress
         '
-        Me.lblProgress.BackColor = System.Drawing.SystemColors.AppWorkspace
+        Me.lblProgress.BackColor = System.Drawing.Color.LightGray
         Me.lblProgress.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblProgress.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblProgress.Location = New System.Drawing.Point(438, 153)
@@ -302,6 +307,7 @@ Partial Class FrmAnagrams
         '
         'BtnXword
         '
+        Me.BtnXword.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.BtnXword.BackColor = System.Drawing.Color.AliceBlue
         Me.BtnXword.FlatAppearance.BorderColor = System.Drawing.Color.Gray
         Me.BtnXword.FlatAppearance.BorderSize = 3
@@ -321,7 +327,7 @@ Partial Class FrmAnagrams
         Me.BtnShowLog.FlatAppearance.BorderColor = System.Drawing.Color.MidnightBlue
         Me.BtnShowLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnShowLog.ForeColor = System.Drawing.Color.MidnightBlue
-        Me.BtnShowLog.Location = New System.Drawing.Point(12, 443)
+        Me.BtnShowLog.Location = New System.Drawing.Point(34, 443)
         Me.BtnShowLog.Margin = New System.Windows.Forms.Padding(4)
         Me.BtnShowLog.Name = "BtnShowLog"
         Me.BtnShowLog.Size = New System.Drawing.Size(83, 32)
@@ -415,7 +421,7 @@ Partial Class FrmAnagrams
         Me.BtnClear.FlatAppearance.BorderColor = System.Drawing.Color.MidnightBlue
         Me.BtnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnClear.ForeColor = System.Drawing.Color.MidnightBlue
-        Me.BtnClear.Location = New System.Drawing.Point(37, 325)
+        Me.BtnClear.Location = New System.Drawing.Point(38, 335)
         Me.BtnClear.Name = "BtnClear"
         Me.BtnClear.Size = New System.Drawing.Size(75, 52)
         Me.BtnClear.TabIndex = 2
@@ -433,6 +439,7 @@ Partial Class FrmAnagrams
         '
         'ChkFindLargest
         '
+        Me.ChkFindLargest.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ChkFindLargest.AutoSize = True
         Me.ChkFindLargest.Location = New System.Drawing.Point(209, 4)
         Me.ChkFindLargest.Name = "ChkFindLargest"
@@ -493,7 +500,7 @@ Partial Class FrmAnagrams
         '
         'SplitContainer2.Panel2
         '
-        Me.SplitContainer2.Panel2.BackColor = System.Drawing.Color.Honeydew
+        Me.SplitContainer2.Panel2.BackColor = System.Drawing.Color.LightSteelBlue
         Me.SplitContainer2.Panel2.Controls.Add(Me.Label11)
         Me.SplitContainer2.Panel2.Controls.Add(Me.Label4)
         Me.SplitContainer2.Panel2.Controls.Add(Me.Label7)
@@ -519,7 +526,7 @@ Partial Class FrmAnagrams
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 19.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.Lavender
+        Me.BackColor = System.Drawing.Color.AliceBlue
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.ClientSize = New System.Drawing.Size(794, 561)
         Me.Controls.Add(Me.SplitContainer2)

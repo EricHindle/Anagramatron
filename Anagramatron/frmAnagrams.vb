@@ -1,5 +1,5 @@
 ﻿' Hindleware
-' Copyright (c) 2025 Eric Hindle
+' Copyright (c) 2026 eric hindle
 ' All rights reserved.
 '
 ' Author Eric Hindle
@@ -80,7 +80,6 @@ Public Class FrmAnagrams
         Initialise()
 
         lblVersion.Text = System.String.Format(lblVersion.Text, My.Application.Info.Version.Major, My.Application.Info.Version.Minor, My.Application.Info.Version.Build)
-        lblCopyright.Text = My.Application.Info.Copyright
         lblCopyright.Text = My.Application.Info.Copyright
         lblVersion.Text = "Version: " & My.Application.Info.Version.Major &
         "." & My.Application.Info.Version.Minor &
@@ -334,6 +333,7 @@ Public Class FrmAnagrams
         End If
     End Sub
     Private Sub EndOfAnagrams()
+        lblProgress.Text = "---Done---"
         If isStopped Then
             lblProgress.Text = "--Stopped--"
         End If
@@ -549,7 +549,6 @@ Public Class FrmAnagrams
         End Try
         Return _response
     End Function
-
 
 #End Region
 End Class
