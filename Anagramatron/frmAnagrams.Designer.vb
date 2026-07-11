@@ -50,6 +50,7 @@ Partial Class FrmAnagrams
         Me.BtnDonate = New System.Windows.Forms.Button()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.LstWords = New System.Windows.Forms.ListBox()
+        Me.ChkLanguages = New System.Windows.Forms.CheckBox()
         Me.WebBrowser1 = New System.Windows.Forms.WebBrowser()
         Me.TxtDefineWord = New System.Windows.Forms.TextBox()
         Me.BtnDefine = New System.Windows.Forms.Button()
@@ -61,7 +62,6 @@ Partial Class FrmAnagrams
         Me.Label10 = New System.Windows.Forms.Label()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Label11 = New System.Windows.Forms.Label()
-        Me.ChkLanguages = New System.Windows.Forms.CheckBox()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -354,7 +354,7 @@ Partial Class FrmAnagrams
         '
         'BtnDonate
         '
-        Me.BtnDonate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnDonate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.BtnDonate.BackColor = System.Drawing.Color.DarkGreen
         Me.BtnDonate.FlatAppearance.BorderColor = System.Drawing.Color.MidnightBlue
         Me.BtnDonate.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -400,6 +400,18 @@ Partial Class FrmAnagrams
         Me.LstWords.Name = "LstWords"
         Me.LstWords.Size = New System.Drawing.Size(174, 358)
         Me.LstWords.TabIndex = 0
+        '
+        'ChkLanguages
+        '
+        Me.ChkLanguages.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ChkLanguages.AutoSize = True
+        Me.ChkLanguages.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ChkLanguages.Location = New System.Drawing.Point(331, 333)
+        Me.ChkLanguages.Name = "ChkLanguages"
+        Me.ChkLanguages.Size = New System.Drawing.Size(102, 18)
+        Me.ChkLanguages.TabIndex = 3
+        Me.ChkLanguages.Text = "All Languages"
+        Me.ChkLanguages.UseVisualStyleBackColor = True
         '
         'WebBrowser1
         '
@@ -549,17 +561,6 @@ Partial Class FrmAnagrams
         Me.Label11.Size = New System.Drawing.Size(171, 27)
         Me.Label11.TabIndex = 3
         Me.Label11.Text = "Crossword Solver"
-        '
-        'ChkLanguages
-        '
-        Me.ChkLanguages.AutoSize = True
-        Me.ChkLanguages.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ChkLanguages.Location = New System.Drawing.Point(331, 333)
-        Me.ChkLanguages.Name = "ChkLanguages"
-        Me.ChkLanguages.Size = New System.Drawing.Size(102, 18)
-        Me.ChkLanguages.TabIndex = 3
-        Me.ChkLanguages.Text = "All Languages"
-        Me.ChkLanguages.UseVisualStyleBackColor = True
         '
         'FrmAnagrams
         '
