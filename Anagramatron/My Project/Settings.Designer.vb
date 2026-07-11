@@ -173,6 +173,42 @@ Namespace My
                 Me("DataFolder") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property FindLongestWord() As Boolean
+            Get
+                Return CType(Me("FindLongestWord"),Boolean)
+            End Get
+            Set
+                Me("FindLongestWord") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("https://anagramatron.co.uk/donate.html")>  _
+        Public Property DonationPage() As String
+            Get
+                Return CType(Me("DonationPage"),String)
+            End Get
+            Set
+                Me("DonationPage") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property AllLanguages() As Boolean
+            Get
+                Return CType(Me("AllLanguages"),Boolean)
+            End Get
+            Set
+                Me("AllLanguages") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

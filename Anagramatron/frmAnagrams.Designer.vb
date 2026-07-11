@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class FrmAnagrams
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class FrmAnagrams
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmAnagrams))
@@ -47,6 +47,7 @@ Partial Class FrmAnagrams
         Me.BtnXword = New System.Windows.Forms.Button()
         Me.BtnShowLog = New System.Windows.Forms.Button()
         Me.TxtCrosswordLength = New System.Windows.Forms.TextBox()
+        Me.BtnDonate = New System.Windows.Forms.Button()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.LstWords = New System.Windows.Forms.ListBox()
         Me.WebBrowser1 = New System.Windows.Forms.WebBrowser()
@@ -60,6 +61,7 @@ Partial Class FrmAnagrams
         Me.Label10 = New System.Windows.Forms.Label()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Label11 = New System.Windows.Forms.Label()
+        Me.ChkLanguages = New System.Windows.Forms.CheckBox()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -213,13 +215,15 @@ Partial Class FrmAnagrams
         '
         Me.BtnGetAnagrams.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.BtnGetAnagrams.BackColor = System.Drawing.Color.AliceBlue
-        Me.BtnGetAnagrams.FlatAppearance.BorderColor = System.Drawing.Color.Gray
-        Me.BtnGetAnagrams.FlatAppearance.BorderSize = 3
+        Me.BtnGetAnagrams.FlatAppearance.BorderColor = System.Drawing.Color.DarkSlateBlue
+        Me.BtnGetAnagrams.FlatAppearance.BorderSize = 2
         Me.BtnGetAnagrams.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnGetAnagrams.Location = New System.Drawing.Point(247, 66)
+        Me.BtnGetAnagrams.Font = New System.Drawing.Font("Calibri", 11.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnGetAnagrams.ForeColor = System.Drawing.Color.Navy
+        Me.BtnGetAnagrams.Location = New System.Drawing.Point(249, 66)
         Me.BtnGetAnagrams.Margin = New System.Windows.Forms.Padding(4)
         Me.BtnGetAnagrams.Name = "BtnGetAnagrams"
-        Me.BtnGetAnagrams.Size = New System.Drawing.Size(92, 53)
+        Me.BtnGetAnagrams.Size = New System.Drawing.Size(100, 53)
         Me.BtnGetAnagrams.TabIndex = 4
         Me.BtnGetAnagrams.Text = "Find Anagrams"
         Me.ToolTip1.SetToolTip(Me.BtnGetAnagrams, "Click to start finding anagrams")
@@ -233,7 +237,7 @@ Partial Class FrmAnagrams
         Me.BtnInterrupt.FlatAppearance.BorderColor = System.Drawing.Color.MidnightBlue
         Me.BtnInterrupt.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnInterrupt.ForeColor = System.Drawing.Color.MidnightBlue
-        Me.BtnInterrupt.Location = New System.Drawing.Point(13, 403)
+        Me.BtnInterrupt.Location = New System.Drawing.Point(13, 431)
         Me.BtnInterrupt.Margin = New System.Windows.Forms.Padding(4)
         Me.BtnInterrupt.Name = "BtnInterrupt"
         Me.BtnInterrupt.Size = New System.Drawing.Size(124, 32)
@@ -249,7 +253,7 @@ Partial Class FrmAnagrams
         Me.BtnAnagClose.FlatAppearance.BorderColor = System.Drawing.Color.MidnightBlue
         Me.BtnAnagClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnAnagClose.ForeColor = System.Drawing.Color.White
-        Me.BtnAnagClose.Location = New System.Drawing.Point(34, 502)
+        Me.BtnAnagClose.Location = New System.Drawing.Point(34, 530)
         Me.BtnAnagClose.Margin = New System.Windows.Forms.Padding(4)
         Me.BtnAnagClose.Name = "BtnAnagClose"
         Me.BtnAnagClose.Size = New System.Drawing.Size(83, 32)
@@ -286,7 +290,7 @@ Partial Class FrmAnagrams
         Me.lblCopyright.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblCopyright.AutoSize = True
         Me.lblCopyright.Font = New System.Drawing.Font("Courier New", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCopyright.Location = New System.Drawing.Point(163, 540)
+        Me.lblCopyright.Location = New System.Drawing.Point(223, 562)
         Me.lblCopyright.Name = "lblCopyright"
         Me.lblCopyright.Size = New System.Drawing.Size(70, 15)
         Me.lblCopyright.TabIndex = 12
@@ -298,7 +302,7 @@ Partial Class FrmAnagrams
         Me.lblVersion.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblVersion.AutoSize = True
         Me.lblVersion.Font = New System.Drawing.Font("Courier New", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblVersion.Location = New System.Drawing.Point(597, 540)
+        Me.lblVersion.Location = New System.Drawing.Point(536, 562)
         Me.lblVersion.Name = "lblVersion"
         Me.lblVersion.Size = New System.Drawing.Size(140, 15)
         Me.lblVersion.TabIndex = 13
@@ -309,12 +313,14 @@ Partial Class FrmAnagrams
         '
         Me.BtnXword.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.BtnXword.BackColor = System.Drawing.Color.AliceBlue
-        Me.BtnXword.FlatAppearance.BorderColor = System.Drawing.Color.Gray
-        Me.BtnXword.FlatAppearance.BorderSize = 3
+        Me.BtnXword.FlatAppearance.BorderColor = System.Drawing.Color.DarkSlateBlue
+        Me.BtnXword.FlatAppearance.BorderSize = 2
         Me.BtnXword.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnXword.Location = New System.Drawing.Point(250, 66)
+        Me.BtnXword.Font = New System.Drawing.Font("Calibri", 11.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnXword.ForeColor = System.Drawing.Color.Navy
+        Me.BtnXword.Location = New System.Drawing.Point(253, 66)
         Me.BtnXword.Name = "BtnXword"
-        Me.BtnXword.Size = New System.Drawing.Size(92, 53)
+        Me.BtnXword.Size = New System.Drawing.Size(100, 53)
         Me.BtnXword.TabIndex = 2
         Me.BtnXword.Text = "Solve Crossword"
         Me.ToolTip1.SetToolTip(Me.BtnXword, "Enter a pattern and find all matching words")
@@ -327,7 +333,7 @@ Partial Class FrmAnagrams
         Me.BtnShowLog.FlatAppearance.BorderColor = System.Drawing.Color.MidnightBlue
         Me.BtnShowLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnShowLog.ForeColor = System.Drawing.Color.MidnightBlue
-        Me.BtnShowLog.Location = New System.Drawing.Point(34, 443)
+        Me.BtnShowLog.Location = New System.Drawing.Point(34, 471)
         Me.BtnShowLog.Margin = New System.Windows.Forms.Padding(4)
         Me.BtnShowLog.Name = "BtnShowLog"
         Me.BtnShowLog.Size = New System.Drawing.Size(83, 32)
@@ -346,6 +352,22 @@ Partial Class FrmAnagrams
         Me.TxtCrosswordLength.TabIndex = 1
         Me.ToolTip1.SetToolTip(Me.TxtCrosswordLength, "Maximum length of words to be found")
         '
+        'BtnDonate
+        '
+        Me.BtnDonate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnDonate.BackColor = System.Drawing.Color.DarkGreen
+        Me.BtnDonate.FlatAppearance.BorderColor = System.Drawing.Color.MidnightBlue
+        Me.BtnDonate.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnDonate.ForeColor = System.Drawing.Color.PaleGreen
+        Me.BtnDonate.Location = New System.Drawing.Point(707, 557)
+        Me.BtnDonate.Margin = New System.Windows.Forms.Padding(0)
+        Me.BtnDonate.Name = "BtnDonate"
+        Me.BtnDonate.Size = New System.Drawing.Size(71, 26)
+        Me.BtnDonate.TabIndex = 24
+        Me.BtnDonate.Text = "Donate"
+        Me.ToolTip1.SetToolTip(Me.BtnDonate, "Help to support hindleware")
+        Me.BtnDonate.UseVisualStyleBackColor = False
+        '
         'SplitContainer1
         '
         Me.SplitContainer1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -361,10 +383,11 @@ Partial Class FrmAnagrams
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.ChkLanguages)
         Me.SplitContainer1.Panel2.Controls.Add(Me.WebBrowser1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.TxtDefineWord)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnDefine)
-        Me.SplitContainer1.Size = New System.Drawing.Size(618, 352)
+        Me.SplitContainer1.Size = New System.Drawing.Size(618, 362)
         Me.SplitContainer1.SplitterDistance = 178
         Me.SplitContainer1.TabIndex = 23
         '
@@ -375,7 +398,7 @@ Partial Class FrmAnagrams
         Me.LstWords.ItemHeight = 19
         Me.LstWords.Location = New System.Drawing.Point(0, 0)
         Me.LstWords.Name = "LstWords"
-        Me.LstWords.Size = New System.Drawing.Size(174, 348)
+        Me.LstWords.Size = New System.Drawing.Size(174, 358)
         Me.LstWords.TabIndex = 0
         '
         'WebBrowser1
@@ -386,14 +409,14 @@ Partial Class FrmAnagrams
         Me.WebBrowser1.Location = New System.Drawing.Point(3, 3)
         Me.WebBrowser1.MinimumSize = New System.Drawing.Size(20, 20)
         Me.WebBrowser1.Name = "WebBrowser1"
-        Me.WebBrowser1.Size = New System.Drawing.Size(427, 304)
+        Me.WebBrowser1.Size = New System.Drawing.Size(427, 314)
         Me.WebBrowser1.TabIndex = 2
         '
         'TxtDefineWord
         '
         Me.TxtDefineWord.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TxtDefineWord.Location = New System.Drawing.Point(90, 317)
+        Me.TxtDefineWord.Location = New System.Drawing.Point(90, 327)
         Me.TxtDefineWord.Name = "TxtDefineWord"
         Me.TxtDefineWord.Size = New System.Drawing.Size(238, 27)
         Me.TxtDefineWord.TabIndex = 1
@@ -407,7 +430,7 @@ Partial Class FrmAnagrams
         Me.BtnDefine.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnDefine.Font = New System.Drawing.Font("Calibri", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnDefine.ForeColor = System.Drawing.Color.MidnightBlue
-        Me.BtnDefine.Location = New System.Drawing.Point(12, 316)
+        Me.BtnDefine.Location = New System.Drawing.Point(12, 326)
         Me.BtnDefine.Name = "BtnDefine"
         Me.BtnDefine.Size = New System.Drawing.Size(60, 29)
         Me.BtnDefine.TabIndex = 0
@@ -418,10 +441,12 @@ Partial Class FrmAnagrams
         '
         Me.BtnClear.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnClear.BackColor = System.Drawing.Color.AliceBlue
-        Me.BtnClear.FlatAppearance.BorderColor = System.Drawing.Color.MidnightBlue
+        Me.BtnClear.FlatAppearance.BorderColor = System.Drawing.Color.DarkSlateBlue
+        Me.BtnClear.FlatAppearance.BorderSize = 2
         Me.BtnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnClear.ForeColor = System.Drawing.Color.MidnightBlue
-        Me.BtnClear.Location = New System.Drawing.Point(38, 335)
+        Me.BtnClear.Font = New System.Drawing.Font("Calibri", 11.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnClear.ForeColor = System.Drawing.Color.Navy
+        Me.BtnClear.Location = New System.Drawing.Point(38, 363)
         Me.BtnClear.Name = "BtnClear"
         Me.BtnClear.Size = New System.Drawing.Size(75, 52)
         Me.BtnClear.TabIndex = 2
@@ -452,10 +477,13 @@ Partial Class FrmAnagrams
         '
         Me.Label7.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label7.AutoSize = True
-        Me.Label7.Font = New System.Drawing.Font("Calibri", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Label7.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.ForeColor = System.Drawing.Color.MidnightBlue
         Me.Label7.Location = New System.Drawing.Point(29, 106)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(166, 13)
+        Me.Label7.Padding = New System.Windows.Forms.Padding(2)
+        Me.Label7.Size = New System.Drawing.Size(198, 20)
         Me.Label7.TabIndex = 6
         Me.Label7.Text = "Replace missing characters with ?"
         '
@@ -522,13 +550,25 @@ Partial Class FrmAnagrams
         Me.Label11.TabIndex = 3
         Me.Label11.Text = "Crossword Solver"
         '
+        'ChkLanguages
+        '
+        Me.ChkLanguages.AutoSize = True
+        Me.ChkLanguages.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ChkLanguages.Location = New System.Drawing.Point(331, 333)
+        Me.ChkLanguages.Name = "ChkLanguages"
+        Me.ChkLanguages.Size = New System.Drawing.Size(102, 18)
+        Me.ChkLanguages.TabIndex = 3
+        Me.ChkLanguages.Text = "All Languages"
+        Me.ChkLanguages.UseVisualStyleBackColor = True
+        '
         'FrmAnagrams
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 19.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.AliceBlue
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.ClientSize = New System.Drawing.Size(794, 561)
+        Me.ClientSize = New System.Drawing.Size(794, 589)
+        Me.Controls.Add(Me.BtnDonate)
         Me.Controls.Add(Me.SplitContainer2)
         Me.Controls.Add(Me.LblCompany)
         Me.Controls.Add(Me.BtnShowLog)
@@ -603,4 +643,6 @@ Partial Class FrmAnagrams
     Friend WithEvents Label10 As Label
     Friend WithEvents SplitContainer2 As SplitContainer
     Friend WithEvents Label11 As Label
+    Friend WithEvents BtnDonate As Button
+    Friend WithEvents ChkLanguages As CheckBox
 End Class

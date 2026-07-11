@@ -7,26 +7,12 @@
 
 Imports System.Environment
 Imports System.IO
-Imports System.Net
 Imports System.Security.Cryptography
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports System.Web.Script.Serialization
 Imports HindlewareLib.Logging
+Imports HindlewareLib.Wiktionary
 Public Class FrmAnagrams
-#Region "constants"
-    Private Const PLURAL_OF As String = "plural of "
-    Private Const SIMPLE_PAST_OF As String = "simple past and past participle of "
-    Private Const OBSOLETE_OF As String = "obsolete form of "
-    Private Const ALT_OF As String = "alternative form of "
-    Private Const GERUND_OF As String = "present participle and gerund of "
-    Private Const SPELLING_OF As String = "alternative spelling of "
-    Private Const SYNONYM_OF As String = "synonym of "
-    Private Const PAST_OF As String = "past participle of "
-    Private Const PRESENT_OF As String = "present participle of "
-    Private Const EXHIBITING As String = "relating to, or exhibiting, "
-    Private Const RELATING_TO As String = "relating to"
-#End Region
 #Region "variables"
     Public isStopped As Boolean
     Private isFindLargest As Boolean
@@ -41,11 +27,12 @@ Public Class FrmAnagrams
     Private iCharPos As Integer
     Private iWordLen As Integer
     Private iCurrLen As Integer
-    Private oLanguage As String
-    Private oLanguages As String() = {"en", "sco", "fr", "de", "es", "pt", "da", "nl", "ro", "la", "af", "nrm", "ca", "oc", "other"}
+    Private oLanguages As String() = {"en", "sco"}
+    Private oAllLanguages As String() = {"en", "sco", "fr", "de", "es", "pt", "da", "nl", "ro", "la", "af", "nrm", "ca", "oc", "other"}
     Private isReferral As Boolean
     Private oAppDataPath As String
     Private oReferralText As New List(Of String)
+    Private isLoading As Boolean
 #End Region
 #Region "properties"
     Dim tdes As TripleDESCryptoServiceProvider
@@ -77,6 +64,7 @@ Public Class FrmAnagrams
 #End Region
 #Region "form control handlers"
     Private Sub FrmAnagrams_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
         Initialise()
 
         lblVersion.Text = System.String.Format(lblVersion.Text, My.Application.Info.Version.Major, My.Application.Info.Version.Minor, My.Application.Info.Version.Build)
@@ -189,13 +177,17 @@ Public Class FrmAnagrams
     Private Sub BtnDefine_Click(sender As Object, e As EventArgs) Handles BtnDefine.Click
         If TxtDefineWord.TextLength > 0 Then
             Dim sWord As String = TxtDefineWord.Text
-            DisplayDefinitions(sWord, SearchWebForWord(sWord))
+            Dim _languages As String() = If(ChkLanguages.Checked, oAllLanguages, oLanguages)
+            Dim oDefinitions As String = WiktionaryUtil.WordDefinitionHtml(sWord, _languages)
+            DisplayPage(oDefinitions)
         End If
     End Sub
     Private Sub LstWords_DoubleClick(sender As Object, e As EventArgs) Handles LstWords.DoubleClick
         If LstWords.SelectedIndex > -1 Then
             Dim sWord As String = LstWords.SelectedItem
-            DisplayDefinitions(sWord, SearchWebForWord(sWord))
+            Dim _languages As String() = If(ChkLanguages.Checked, oAllLanguages, oLanguages)
+            Dim oDefinitions As String = WiktionaryUtil.WordDefinitionHtml(sWord, _languages)
+            DisplayPage(oDefinitions)
         End If
     End Sub
     Private Sub TxtPattern_TextChanged(sender As Object, e As EventArgs) Handles TxtPattern.TextChanged
@@ -224,21 +216,13 @@ Public Class FrmAnagrams
             My.Settings.CallUpgrade = 1
             My.Settings.Save()
         End If
+        isLoading = True
         oAppDataPath = Path.Combine(GetFolderPath(SpecialFolder.CommonApplicationData), Path.Combine(My.Application.Info.CompanyName, My.Application.Info.AssemblyName))
         LogUtil.LogFolder = Path.Combine(oAppDataPath, My.Settings.LogFolder)
         LogUtil.StartLogging()
+        ChkLanguages.Checked = My.Settings.AllLanguages
         GetFormPos(Me, My.Settings.MainFormPos)
-        oReferralText.Add(PLURAL_OF)
-        oReferralText.Add(PAST_OF)
-        oReferralText.Add(PRESENT_OF)
-        oReferralText.Add(SIMPLE_PAST_OF)
-        oReferralText.Add(ALT_OF)
-        oReferralText.Add(OBSOLETE_OF)
-        oReferralText.Add(GERUND_OF)
-        oReferralText.Add(SPELLING_OF)
-        oReferralText.Add(SYNONYM_OF)
-        oReferralText.Add(EXHIBITING)
-        oReferralText.Add(RELATING_TO)
+        isLoading = False
     End Sub
     Private Sub InitialiseDecryptor()
         Tdes1 = New TripleDESCryptoServiceProvider()
@@ -338,7 +322,7 @@ Public Class FrmAnagrams
             lblProgress.Text = "--Stopped--"
         End If
         SetButtons(True, True, False)
-        ClearBrowser("Double-click a word to see definitions")
+        DisplayText("Double-click a word to see definitions")
     End Sub
     Private Function IsValidText(iMin As Integer, iMax As Integer) As Boolean
         Dim isValid As Boolean = True
@@ -359,196 +343,30 @@ Public Class FrmAnagrams
         BtnGetAnagrams.Enabled = isAnagramButtonEnabled
         BtnXword.Enabled = isCrosswordButtonEnabled
     End Sub
-    Private Sub ClearBrowser(Optional stext As String = "")
+    Private Sub ClearBrowser()
+        DisplayText("")
+    End Sub
+    Private Sub DisplayText(pText As String)
+        DisplayPage("<HTML><body><div style='font-family:verdana'>" & pText & "</div></body></HTML>")
+    End Sub
+    Private Sub DisplayPage(pHtml)
         OpenBlankWebPage()
-        WebBrowser1.Document.Write("<HTML><body><div style='font-family:verdana'>" & stext & "</div></body></HTML>")
+        WebBrowser1.Document.Write(pHtml)
         WebBrowser1.Refresh()
     End Sub
     Private Sub OpenBlankWebPage()
         WebBrowser1.Navigate("about:blank")
         WebBrowser1.Document.OpenNew(False)
     End Sub
-#End Region
-#Region "wiktionary"
-    Private Sub DisplayDefinitions(ByVal sWord As String, extractDictionary As Dictionary(Of String, Object))
-        LogUtil.LogInfo("Displaying definitions", MyBase.Name)
-        If extractDictionary IsNot Nothing AndAlso extractDictionary.Count > 0 Then
-            LoadDefinitionIntoBrowser(sWord, extractDictionary)
-        Else
-            Dim _propercase As String = StrConv(sWord, VbStrConv.ProperCase)
-            extractDictionary = SearchWebForWord(_propercase)
-            If extractDictionary IsNot Nothing AndAlso extractDictionary.Count > 0 Then
-                LoadDefinitionIntoBrowser(_propercase, extractDictionary)
-            Else
-                ClearBrowser("No meaningful response")
-            End If
-        End If
-    End Sub
-    Private Sub LoadDefinitionIntoBrowser(sWord As String, extractDictionary As Dictionary(Of String, Object))
-        Dim _html As StringBuilder = BuildDefinitionHtml(extractDictionary, sWord)
-        LogUtil.LogInfo("Loading browser", MyBase.Name)
-        Dim _page As String = _html.ToString
-        OpenBlankWebPage()
-        WebBrowser1.Document.Write(_page)
-        WebBrowser1.Refresh()
-    End Sub
-    Private Function BuildDefinitionHtml(extractDictionary As Dictionary(Of String, Object), _word As String) As StringBuilder
-        LogUtil.LogInfo("Building HTML", MyBase.Name)
-        Dim _html As New StringBuilder()
-        Try
-            Dim oFullListOfReferences As New List(Of String)
-            Dim _propercase As String = StrConv(_word, VbStrConv.ProperCase)
-            _html.Append("<HTML><body><div style='font-family:verdana'>")
-            Dim oReferences As New List(Of String) From {
-                _propercase
-            }
-            oReferences.AddRange(BuildWordEntryHtml(extractDictionary, _word, _html))
-            If oReferences.Count > 0 Then
-                ProcessReferences(oReferences, _html, oFullListOfReferences)
-            End If
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Exception")
-        End Try
-        _html.Append("</div></body></HTML>")
-        Return _html
-    End Function
-    Private Sub ProcessReferences(pListOfReferences As List(Of String), pHtml As StringBuilder, pFullList As List(Of String))
-        Dim _listOfNewReferences As New List(Of String)
-        For Each _reference As String In pListOfReferences
-            If pFullList.IndexOf(_reference) = -1 Then
-                _listOfNewReferences.Add(_reference)
-                pFullList.Add(_reference)
-            End If
-        Next
-        For Each _reference As String In _listOfNewReferences
-            Dim _extractDictionary As Dictionary(Of String, Object) = SearchWebForWord(_reference)
-            If _extractDictionary IsNot Nothing AndAlso _extractDictionary.Count > 0 Then
-                Dim _newListOfReferences As List(Of String) = BuildWordEntryHtml(_extractDictionary, _reference, pHtml)
-                If _newListOfReferences.Count > 0 Then
-                    ProcessReferences(_newListOfReferences, pHtml, pFullList)
-                End If
-            End If
-        Next
-    End Sub
-    Private Function BuildWordEntryHtml(extractDictionary As Dictionary(Of String, Object), _word As String, _html As StringBuilder) As List(Of String)
-        Dim _references As New List(Of String)
-        _html.Append("<h2>").Append(_word).Append("</h2>")
-        ' Get the extract for the first language in the language list that has one
-        Dim _languageExtract As Object = Nothing
-        For Each oLanguage In oLanguages
-            extractDictionary.TryGetValue(oLanguage, _languageExtract)
-            If _languageExtract IsNot Nothing Then
-                Exit For
-            End If
-        Next
-        ' If an extract has been found
-        If _languageExtract IsNot Nothing Then
-            For Each parts As Dictionary(Of String, Object) In _languageExtract
-                AppendPartOfSpeechToHtml(_html, parts)
-                AppendLanguageToHtml(_html, parts)
-                _references.AddRange(AppendDefinitionsToHtml(_html, parts))
-            Next
-        Else
-            _html.Append("<h5>").Append("Not found in selected languages").Append("</h5>")
-        End If
-        Return _references
-    End Function
-    Private Function AppendDefinitionsToHtml(_html As StringBuilder, parts As Dictionary(Of String, Object)) As List(Of String)
-        Dim _references As New List(Of String)
-        Dim _definitionsExtract As Object = Nothing
-        parts.TryGetValue("definitions", _definitionsExtract)
-        If _definitionsExtract IsNot Nothing Then
-            _references = BuildHtmlDefinitionList(_html, _definitionsExtract)
-        End If
-        Return _references
-    End Function
-    Private Sub AppendLanguageToHtml(_html As StringBuilder, parts As Dictionary(Of String, Object))
-        Dim _lang As String = ""
-        parts.TryGetValue("language", _lang)
-        If _lang IsNot Nothing Then _html.Append("<h5>").Append(_lang).Append("</h5>")
-    End Sub
-    Private Function AppendPartOfSpeechToHtml(_html As StringBuilder, parts As Dictionary(Of String, Object)) As String
-        Dim _partOfSpeech As String = ""
-        parts.TryGetValue("partOfSpeech", _partOfSpeech)
-        If _partOfSpeech IsNot Nothing Then _html.Append("<h3>").Append(_partOfSpeech).Append("</h3>")
-        Return _partOfSpeech
-    End Function
-    Private Function BuildHtmlDefinitionList(_html As StringBuilder, _definitionsExtract As Object) As List(Of String)
-        Dim _references As New List(Of String)
-        _html.Append("<ul>")
-        For Each definition As Dictionary(Of String, Object) In _definitionsExtract
-            Dim _definitionText As String = String.Empty
-            definition.TryGetValue("definition", _definitionText)
-            If Not String.IsNullOrEmpty(_definitionText) Then
-                _references.AddRange(AddDefinitionToHtmlList(_html, definition))
-            End If
-        Next
-        _html.Append("</ul>")
-        Return _references
-    End Function
-    Private Function AddDefinitionToHtmlList(_html As StringBuilder, definition As Dictionary(Of String, Object)) As List(Of String)
-        Dim _definitionText As String = ""
-        Dim _references As New List(Of String)
-        definition.TryGetValue("definition", _definitionText)
-        '   Add definition to Html list
-        If _definitionText IsNot Nothing Then
-            '     _html.Append("<li>").Append(_definitionText.ToString).Append("</li>")
-            Dim text1 As String = Regex.Replace(_definitionText.ToString, "<a.*?>", "")
-            Dim text2 As String = Regex.Replace(text1, "</a.*?>", "")
-            _html.Append("<li>").Append(text2).Append("</li>")
-        End If
-        '   Check if definition refers to another word
-        Dim _pureText As String = Regex.Replace(_definitionText, "<.*?>", "")
-        For Each _referral As String In oReferralText
-            If _pureText.Trim.ToLower().StartsWith(_referral) Then
-                isReferral = True
-                Dim _rest As String = _pureText.Remove(0, _referral.Length).Trim(".").Trim
-                If _rest.Contains("(") Then
-                    Dim _bits As String() = Split(_rest, " ", 2)
-                    _references.Add(_bits(0))
-                Else
-                    _references.Add(_rest)
-                End If
-                Exit For
-            End If
-        Next
-        '   return word referred to in definition
-        Return _references
-    End Function
-    Private Function SearchWebForWord(ByVal sWord As String) As Dictionary(Of String, Object)
-        LogUtil.LogInfo("Searching web for word " & sWord, MyBase.Name)
-        Dim extractDictionary As New Dictionary(Of String, Object)
-        Dim _response As String = NavigateToUrl(My.Settings.wikiExtractSearch & sWord)
-        If _response IsNot Nothing Then
-            If Not String.IsNullOrWhiteSpace(_response) Then
-                extractDictionary = GetExtractFromResponse(_response)
-            End If
-        End If
-        Return extractDictionary
-    End Function
-    Public Function GetExtractFromResponse(wikipage As String) As Dictionary(Of String, Object)
-        Dim extractDictionary As Dictionary(Of String, Object) = Nothing
-        Try
-            Dim jss As New JavaScriptSerializer()
-            extractDictionary = jss.Deserialize(Of Dictionary(Of String, Object))(wikipage)
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Exception")
-        End Try
-        Return extractDictionary
-    End Function
-    Private Function NavigateToUrl(pSearchString As String) As String
-        Dim _response As String = String.Empty
-        Try
-            Dim _webClient As New WebClient With {
-                .Encoding = System.Text.Encoding.GetEncoding("utf-8")
-            }
-            _webClient.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
-            _response = _webClient.DownloadString(pSearchString)
-        Catch ex As Exception
-            ClearBrowser(ex.Message)
-        End Try
-        Return _response
-    End Function
 
+    Private Sub BtnDonate_Click(sender As Object, e As EventArgs) Handles BtnDonate.Click
+        Process.Start(My.Settings.DonationPage)
+    End Sub
+    Private Sub ChkLanguages_CheckedChanged(sender As Object, e As EventArgs) Handles ChkLanguages.CheckedChanged
+        If Not isLoading Then
+            My.Settings.AllLanguages = ChkLanguages.Checked
+            My.Settings.Save()
+        End If
+    End Sub
 #End Region
 End Class

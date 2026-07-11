@@ -32,5 +32,14 @@
     <Setting Name="DataFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)">Anagramatron</Value>
     </Setting>
+    <Setting Name="FindLongestWord" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DonationPage" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://anagramatron.co.uk/donate.html</Value>
+    </Setting>
+    <Setting Name="AllLanguages" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
