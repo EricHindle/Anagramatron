@@ -5,12 +5,12 @@
 ' Author Eric Hindle
 '
 
-Imports System.Environment
 Imports System.IO
 Imports System.Security.Cryptography
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports HindlewareLib.Logging
+Imports HindlewareLib.Utilities
 Imports HindlewareLib.Wiktionary
 Public Class FrmAnagrams
 #Region "variables"
@@ -30,9 +30,12 @@ Public Class FrmAnagrams
     Private oLanguages As String() = {"en", "sco"}
     Private oAllLanguages As String() = {"en", "sco", "fr", "de", "es", "pt", "da", "nl", "ro", "la", "af", "nrm", "ca", "oc", "other"}
     Private isReferral As Boolean
-    Private oAppDataPath As String
+    Private oAppDataPath As DirectoryInfo
+    Private oListOfWordsFile As FileInfo
     Private oReferralText As New List(Of String)
     Private isLoading As Boolean
+    Private oFileUtil As New FileUtil
+
 #End Region
 #Region "properties"
     Dim tdes As TripleDESCryptoServiceProvider
@@ -64,15 +67,9 @@ Public Class FrmAnagrams
 #End Region
 #Region "form control handlers"
     Private Sub FrmAnagrams_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
         Initialise()
-
         lblVersion.Text = System.String.Format(lblVersion.Text, My.Application.Info.Version.Major, My.Application.Info.Version.Minor, My.Application.Info.Version.Build)
         lblCopyright.Text = My.Application.Info.Copyright
-        lblVersion.Text = "Version: " & My.Application.Info.Version.Major &
-        "." & My.Application.Info.Version.Minor &
-        "." & My.Application.Info.Version.Build &
-        "." & My.Application.Info.Version.Revision
         LblCompany.Text = String.Format(LblCompany.Text, My.Application.Info.CompanyName)
         InitialiseDecryptor()
     End Sub
@@ -80,13 +77,13 @@ Public Class FrmAnagrams
         Me.Close()
     End Sub
     Private Sub FrmAnagrams_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        LogUtil.LogInfo("Closing", MyBase.Name)
+        LogUtil.LogInfo(" Form Closing", MyBase.Name)
         My.Settings.MainFormPos = SetFormPos(Me)
         My.Settings.Save()
     End Sub
     Private Sub CmdGetAnagrams_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnGetAnagrams.Click
         Try
-            Dim iMin As Integer = Val(TxtMinLen.Text) + 0
+            Dim iMin As Integer = Math.Max(Val(TxtMinLen.Text) + 0, 2)
             Dim iMax As Integer = Math.Min(Val(TxtMaxLen.Text) + 0, TxtLetters.Text.Length)
             TxtMaxLen.Text = CStr(iMax)
             If IsValidText(iMin, iMax) Then
@@ -96,7 +93,10 @@ Public Class FrmAnagrams
                     For iCurrLen = iMax To iMin Step -1
                         CheckWordsOfAParticularLength()
                         Application.DoEvents()
-                        If isStopped Then Exit For
+                        If isStopped Then
+                            LogUtil.Warn("Search interrupted", MyBase.Name)
+                            Exit For
+                        End If
                     Next iCurrLen
                     If isStopped Then Exit Do
                     If Not isFindLargest OrElse iWordsFound > 0 Then
@@ -114,34 +114,42 @@ Public Class FrmAnagrams
             End If
         Catch ex As Exception
             MsgBox("A program error has occurred: " & vbCrLf & ex.Message, MsgBoxStyle.Critical)
+            LogUtil.Exception("Exception", ex, MyBase.Name)
+            Close()
         End Try
     End Sub
     Private Sub SolveCrossword(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnXword.Click
         If TxtPattern.TextLength = 0 Then
-            MsgBox("You must provide a pattern with ? for missing letters", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Error")
+            MsgBox("You must provide a pattern with ? for missing letters." & vbCrLf & "e.g. co?un??um", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Error")
         Else
             If String.IsNullOrWhiteSpace(TxtCrosswordLength.Text) OrElse Not IsNumeric(TxtCrosswordLength.Text) Then
                 MsgBox("You must provide a length for the required word", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Error")
             Else
-                TxtPattern.Text = Replace(TxtPattern.Text, " ", "").ToLower
+                TxtPattern.Text = Replace(TxtPattern.Text, " ", "?").ToLower
                 Dim regex As New RegularExpressions.Regex("[^a-zA-Z?/*]")
                 If regex.IsMatch(TxtPattern.Text) = True Then
                     MsgBox("The pattern can only be letters, / * or ?", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Error")
                 Else
                     InitialiseCrosswordCheck()
-                    Using oListOfWords As New StreamReader(Path.Combine(oAppDataPath, My.Settings.CodedWordList))
-                        Do Until oListOfWords.EndOfStream
-                            Dim oDictionaryWord As String = oListOfWords.ReadLine
-                            AddMatchingWordToList(oDictionaryWord)
-                            Application.DoEvents()
-                            If isStopped Then
-                                lblProgress.Text = "---Stopped---"
-                                Exit Do
-                            End If
-                        Loop
-                        oListOfWords.Close()
-                        lblProgress.Text = "---Done---"
-                    End Using
+                    Try
+                        Using oListOfWords As New StreamReader(oListOfWordsFile.FullName)
+                            Do Until oListOfWords.EndOfStream
+                                Dim oDictionaryWord As String = oListOfWords.ReadLine
+                                AddMatchingWordToList(oDictionaryWord)
+                                Application.DoEvents()
+                                If isStopped Then
+                                    lblProgress.Text = "---Stopped---"
+                                    Exit Do
+                                End If
+                            Loop
+                            oListOfWords.Close()
+                            lblProgress.Text = "---Done---"
+                        End Using
+                        LogUtil.Info(CStr(iWordsFound) & " words found", MyBase.Name)
+                    Catch ex As Exception
+                        LstWords.Items.Add(oListOfWordsFile.Name & " missing")
+                        LogUtil.Exception("Word list reader problem", ex, MyBase.Name)
+                    End Try
                 End If
             End If
         End If
@@ -161,6 +169,7 @@ Public Class FrmAnagrams
         lblWordCount.Text = String.Empty
         TxtCrosswordLength.Text = String.Empty
         TxtDefineWord.Text = String.Empty
+        TxtCrosswordLength.BackColor = Color.White
     End Sub
     Private Sub BtnShowLog_Click(sender As Object, e As EventArgs) Handles BtnShowLog.Click
         Using _logView As New FrmLogViewer
@@ -177,7 +186,7 @@ Public Class FrmAnagrams
     Private Sub BtnDefine_Click(sender As Object, e As EventArgs) Handles BtnDefine.Click
         If TxtDefineWord.TextLength > 0 Then
             Dim sWord As String = TxtDefineWord.Text
-            Dim _languages As String() = If(ChkLanguages.Checked, oAllLanguages, oLanguages)
+            Dim _languages As String() = If(ChkLanguages.Checked, oLanguages, oAllLanguages)
             Dim oDefinitions As String = WiktionaryUtil.WordDefinitionHtml(sWord, _languages)
             DisplayPage(oDefinitions)
         End If
@@ -185,16 +194,21 @@ Public Class FrmAnagrams
     Private Sub LstWords_DoubleClick(sender As Object, e As EventArgs) Handles LstWords.DoubleClick
         If LstWords.SelectedIndex > -1 Then
             Dim sWord As String = LstWords.SelectedItem
-            Dim _languages As String() = If(ChkLanguages.Checked, oAllLanguages, oLanguages)
+            Dim _languages As String() = If(ChkLanguages.Checked, oLanguages, oAllLanguages)
             Dim oDefinitions As String = WiktionaryUtil.WordDefinitionHtml(sWord, _languages)
             DisplayPage(oDefinitions)
         End If
     End Sub
     Private Sub TxtPattern_TextChanged(sender As Object, e As EventArgs) Handles TxtPattern.TextChanged
-        If TxtPattern.TextLength > 0 And TxtLetters.TextLength = 0 Then
+        If TxtPattern.TextLength > 0 And TxtLetters.TextLength = 0 And Not TxtPattern.Text.Contains("*") Then
             TxtMinLen.Text = ""
             TxtMaxLen.Text = ""
             TxtCrosswordLength.Text = CStr(TxtPattern.TextLength)
+        End If
+        If TxtPattern.TextLength <> CStr(TxtCrosswordLength.Text) And Not TxtPattern.Text.Contains("*") Then
+            TxtCrosswordLength.BackColor = Color.LightCoral
+        Else
+            TxtCrosswordLength.BackColor = Color.White
         End If
     End Sub
     Private Sub TxtLetters_TextChanged(sender As Object, e As EventArgs) Handles TxtLetters.TextChanged
@@ -217,11 +231,21 @@ Public Class FrmAnagrams
             My.Settings.Save()
         End If
         isLoading = True
-        oAppDataPath = Path.Combine(GetFolderPath(SpecialFolder.CommonApplicationData), Path.Combine(My.Application.Info.CompanyName, My.Application.Info.AssemblyName))
-        LogUtil.LogFolder = Path.Combine(oAppDataPath, My.Settings.LogFolder)
+        lblInitProgress.Text = String.Empty
+        oAppDataPath = New DirectoryInfo(Path.Combine(My.Application.Info.DirectoryPath, "AnagramatronData"))
+        oListOfWordsFile = New FileInfo(Path.Combine(oAppDataPath.FullName, My.Settings.CodedWordList))
         LogUtil.StartLogging()
+        LogUtil.Info("Application Data path : " & oAppDataPath.FullName, MyBase.Name)
         ChkLanguages.Checked = My.Settings.AllLanguages
         GetFormPos(Me, My.Settings.MainFormPos)
+        If Not oAppDataPath.Exists Then
+            lblInitProgress.Text &= "1"
+            LogUtil.Problem(oAppDataPath.FullName & " not found", MyBase.Name, "a001")
+        End If
+        If Not oListOfWordsFile.Exists Then
+            lblInitProgress.Text &= "2"
+            LogUtil.Problem(oListOfWordsFile.FullName & " not found", MyBase.Name, "a002")
+        End If
         isLoading = False
     End Sub
     Private Sub InitialiseDecryptor()
@@ -237,6 +261,7 @@ Public Class FrmAnagrams
         CTransform1 = Tdes1.CreateDecryptor()
     End Sub
     Private Sub InitialiseAnagramSearch()
+        LogUtil.Info("Looking for anagrams of " & TxtLetters.Text, MyBase.Name)
         isStopped = False
         SetButtons(False, False, True)
         lblProgress.Text = "---Start---"
@@ -247,6 +272,7 @@ Public Class FrmAnagrams
     Private Sub InitialiseCrosswordCheck()
         isStopped = False
         TxtPattern.Text = TxtPattern.Text.Replace("/", "?")
+        LogUtil.Info("Looking for " & TxtCrosswordLength.Text & " letter words matching " & TxtPattern.Text, MyBase.Name)
         lblProgress.Text = "---Start---"
         lblProgress.Refresh()
         iWordsFound = 0
@@ -262,12 +288,17 @@ Public Class FrmAnagrams
         LstWords.Items.Add("---" & iCurrLen & "---")
         lblProgress.Text = iCurrLen & " letters"
         Me.Refresh()
-        Using oListOfWords As New StreamReader(Path.Combine(oAppDataPath, My.Settings.CodedWordList))
-            Do Until oListOfWords.EndOfStream
-                CheckWordForIsValidAnagram(oListOfWords)
-            Loop
-            oListOfWords.Close()
-        End Using
+        Try
+            Using oListOfWords As New StreamReader(oListOfWordsFile.FullName)
+                Do Until oListOfWords.EndOfStream
+                    CheckWordForIsValidAnagram(oListOfWords)
+                Loop
+                oListOfWords.Close()
+            End Using
+        Catch ex As Exception
+            LstWords.Items.Add(oListOfWordsFile.Name & " missing")
+            LogUtil.Exception("Word list reader problem", ex, MyBase.Name)
+        End Try
     End Sub
     Private Function DecryptDictionaryWord(pDictionaryWord As String) As String
         Dim _word As String = String.Empty
@@ -321,6 +352,7 @@ Public Class FrmAnagrams
         If isStopped Then
             lblProgress.Text = "--Stopped--"
         End If
+        LogUtil.Info(CStr(iWordsFound) & " words found", MyBase.Name)
         SetButtons(True, True, False)
         DisplayText("Double-click a word to see definitions")
     End Sub
@@ -331,7 +363,7 @@ Public Class FrmAnagrams
             isValid = False
         Else
             TxtLetters.Text = Replace(TxtLetters.Text, " ", "")
-            If Len(TxtLetters.Text) < iMin Then
+            If Len(TxtLetters.Text) <iMin Then
                 MsgBox("Not enough letters for minimum length", vbExclamation, "Error")
                 isValid = False
             End If
@@ -358,15 +390,17 @@ Public Class FrmAnagrams
         WebBrowser1.Navigate("about:blank")
         WebBrowser1.Document.OpenNew(False)
     End Sub
-
-    Private Sub BtnDonate_Click(sender As Object, e As EventArgs) Handles BtnDonate.Click
-        Process.Start(My.Settings.DonationPage)
+    Private Sub BtnDonate_Click(sender As Object, e As EventArgs)
+        '     Process.Start(My.Settings.DonationPage)
     End Sub
     Private Sub ChkLanguages_CheckedChanged(sender As Object, e As EventArgs) Handles ChkLanguages.CheckedChanged
         If Not isLoading Then
             My.Settings.AllLanguages = ChkLanguages.Checked
             My.Settings.Save()
         End If
+    End Sub
+    Private Sub LblCompany_Click(sender As Object, e As EventArgs) Handles LblCompany.Click
+        StatusStrip1.Visible = Not StatusStrip1.Visible
     End Sub
 #End Region
 End Class

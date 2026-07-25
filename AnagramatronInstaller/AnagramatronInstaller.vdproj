@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_2C6BA540120AD610AFAB65AA3630A2B1"
+        "OwnerKey" = "8:_A98C5240775B40F5823299A9A5DD7F13"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_4D955857B462E3F910089F89A6C5EA3A"
         "OwnerKey" = "8:_A98C5240775B40F5823299A9A5DD7F13"
         "MsmSig" = "8:_UNDEFINED"
@@ -59,6 +65,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_4D955857B462E3F910089F89A6C5EA3A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_2C6BA540120AD610AFAB65AA3630A2B1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -126,10 +138,10 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.8.1"
                     {
-                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    "Name" = "8:Microsoft .NET Framework 4.8.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.8.1"
                     }
                 }
             }
@@ -162,11 +174,42 @@
         }
         "File"
         {
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2C6BA540120AD610AFAB65AA3630A2B1"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Windows, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+                "ScatterAssemblies"
+                {
+                    "_2C6BA540120AD610AFAB65AA3630A2B1"
+                    {
+                    "Name" = "8:System.Windows.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Windows.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_B47B7FEA50484E07AFE71FDF938C7C82"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4D955857B462E3F910089F89A6C5EA3A"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:HindlewareLib, Version=1.15.5.0, Culture=neutral, PublicKeyToken=95a3f610fb3dfb55, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:HindlewareLib, Version=1.15.7.0, Culture=neutral, PublicKeyToken=95a3f610fb3dfb55, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_4D955857B462E3F910089F89A6C5EA3A"
@@ -317,7 +360,7 @@
             }
             "{994432C3-9487-495D-8656-3E829A8DBDDE}:_CA250BA579AB404BB0C8424F08ADB224"
             {
-            "DefaultLocation" = "8:[CommonAppDataFolder]\\[Manufacturer]\\Anagramatron"
+            "DefaultLocation" = "8:[ProgramFiles64Folder]\\[Manufacturer]\\[ProductName]\\AnagramatronData"
             "Name" = "8:Anagramatron"
             "AlwaysCreate" = "11:TRUE"
             "Condition" = "8:"
@@ -325,17 +368,6 @@
             "Property" = "8:NEWPROPERTY1"
                 "Folders"
                 {
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_B1A278BAE4B146D69E76D74FFF418F83"
-                    {
-                    "Name" = "8:Logs"
-                    "AlwaysCreate" = "11:TRUE"
-                    "Condition" = "8:"
-                    "Transitive" = "11:FALSE"
-                    "Property" = "8:_7653BD132A36402A84700A33BA7F5C18"
-                        "Folders"
-                        {
-                        }
-                    }
                 }
             }
         }
@@ -354,15 +386,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Anagramatron"
-        "ProductCode" = "8:{BF33AC69-A9B5-45CA-85FE-321FCD6F7782}"
-        "PackageCode" = "8:{06F417E4-FE4A-43A8-BC81-D8756062ED7B}"
+        "ProductCode" = "8:{A99F190E-0429-4C66-AEB4-8F8F206CCD2F}"
+        "PackageCode" = "8:{56186B90-94F9-4605-B1BB-28462D702877}"
         "UpgradeCode" = "8:{2D5CD08D-AEBB-479E-93C4-574E7D70F942}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.11.13"
+        "ProductVersion" = "8:1.11.7"
         "Manufacturer" = "8:hindleware"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -904,7 +936,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_A98C5240775B40F5823299A9A5DD7F13"
             {
-            "SourcePath" = "8:..\\Anagramatron\\obj\\Debug\\Anagramatron.exe"
+            "SourcePath" = "8:..\\Anagramatron\\obj\\Release\\Anagramatron.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B47B7FEA50484E07AFE71FDF938C7C82"

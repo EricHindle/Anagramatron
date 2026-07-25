@@ -41,13 +41,10 @@ Partial Class FrmAnagrams
         Me.BtnAnagClose = New System.Windows.Forms.Button()
         Me.lblProgress = New System.Windows.Forms.Label()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.lblCopyright = New System.Windows.Forms.Label()
-        Me.lblVersion = New System.Windows.Forms.Label()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.BtnXword = New System.Windows.Forms.Button()
         Me.BtnShowLog = New System.Windows.Forms.Button()
         Me.TxtCrosswordLength = New System.Windows.Forms.TextBox()
-        Me.BtnDonate = New System.Windows.Forms.Button()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.LstWords = New System.Windows.Forms.ListBox()
         Me.ChkLanguages = New System.Windows.Forms.CheckBox()
@@ -62,6 +59,10 @@ Partial Class FrmAnagrams
         Me.Label10 = New System.Windows.Forms.Label()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Label11 = New System.Windows.Forms.Label()
+        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
+        Me.lblInitProgress = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.lblCopyright = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.lblVersion = New System.Windows.Forms.ToolStripStatusLabel()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -71,6 +72,7 @@ Partial Class FrmAnagrams
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'TxtLetters
@@ -101,7 +103,7 @@ Partial Class FrmAnagrams
         'TxtMinLen
         '
         Me.TxtMinLen.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtMinLen.Location = New System.Drawing.Point(125, 65)
+        Me.TxtMinLen.Location = New System.Drawing.Point(158, 65)
         Me.TxtMinLen.Margin = New System.Windows.Forms.Padding(4)
         Me.TxtMinLen.Name = "TxtMinLen"
         Me.TxtMinLen.Size = New System.Drawing.Size(40, 27)
@@ -111,7 +113,7 @@ Partial Class FrmAnagrams
         'TxtMaxLen
         '
         Me.TxtMaxLen.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtMaxLen.Location = New System.Drawing.Point(125, 97)
+        Me.TxtMaxLen.Location = New System.Drawing.Point(158, 97)
         Me.TxtMaxLen.Margin = New System.Windows.Forms.Padding(4)
         Me.TxtMaxLen.Name = "TxtMaxLen"
         Me.TxtMaxLen.Size = New System.Drawing.Size(40, 27)
@@ -140,9 +142,9 @@ Partial Class FrmAnagrams
         Me.Label2.Location = New System.Drawing.Point(24, 100)
         Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(93, 19)
+        Me.Label2.Size = New System.Drawing.Size(129, 19)
         Me.Label2.TabIndex = 8
-        Me.Label2.Text = "Max Length :"
+        Me.Label2.Text = "Maximum Length :"
         '
         'Label3
         '
@@ -173,9 +175,9 @@ Partial Class FrmAnagrams
         Me.Label5.Location = New System.Drawing.Point(24, 68)
         Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(90, 19)
+        Me.Label5.Size = New System.Drawing.Size(126, 19)
         Me.Label5.TabIndex = 7
-        Me.Label5.Text = "Min Length :"
+        Me.Label5.Text = "Minimum Length :"
         '
         'lblWordCount
         '
@@ -237,7 +239,7 @@ Partial Class FrmAnagrams
         Me.BtnInterrupt.FlatAppearance.BorderColor = System.Drawing.Color.MidnightBlue
         Me.BtnInterrupt.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnInterrupt.ForeColor = System.Drawing.Color.MidnightBlue
-        Me.BtnInterrupt.Location = New System.Drawing.Point(13, 431)
+        Me.BtnInterrupt.Location = New System.Drawing.Point(10, 437)
         Me.BtnInterrupt.Margin = New System.Windows.Forms.Padding(4)
         Me.BtnInterrupt.Name = "BtnInterrupt"
         Me.BtnInterrupt.Size = New System.Drawing.Size(124, 32)
@@ -253,7 +255,7 @@ Partial Class FrmAnagrams
         Me.BtnAnagClose.FlatAppearance.BorderColor = System.Drawing.Color.MidnightBlue
         Me.BtnAnagClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnAnagClose.ForeColor = System.Drawing.Color.White
-        Me.BtnAnagClose.Location = New System.Drawing.Point(34, 530)
+        Me.BtnAnagClose.Location = New System.Drawing.Point(31, 536)
         Me.BtnAnagClose.Margin = New System.Windows.Forms.Padding(4)
         Me.BtnAnagClose.Name = "BtnAnagClose"
         Me.BtnAnagClose.Size = New System.Drawing.Size(83, 32)
@@ -285,30 +287,6 @@ Partial Class FrmAnagrams
         Me.PictureBox1.TabIndex = 17
         Me.PictureBox1.TabStop = False
         '
-        'lblCopyright
-        '
-        Me.lblCopyright.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lblCopyright.AutoSize = True
-        Me.lblCopyright.Font = New System.Drawing.Font("Courier New", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCopyright.Location = New System.Drawing.Point(223, 562)
-        Me.lblCopyright.Name = "lblCopyright"
-        Me.lblCopyright.Size = New System.Drawing.Size(70, 15)
-        Me.lblCopyright.TabIndex = 12
-        Me.lblCopyright.Text = "Copyright"
-        Me.lblCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblVersion
-        '
-        Me.lblVersion.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblVersion.AutoSize = True
-        Me.lblVersion.Font = New System.Drawing.Font("Courier New", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblVersion.Location = New System.Drawing.Point(536, 562)
-        Me.lblVersion.Name = "lblVersion"
-        Me.lblVersion.Size = New System.Drawing.Size(140, 15)
-        Me.lblVersion.TabIndex = 13
-        Me.lblVersion.Text = "version {0}.{1}.{2}"
-        Me.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
         'BtnXword
         '
         Me.BtnXword.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -333,7 +311,7 @@ Partial Class FrmAnagrams
         Me.BtnShowLog.FlatAppearance.BorderColor = System.Drawing.Color.MidnightBlue
         Me.BtnShowLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnShowLog.ForeColor = System.Drawing.Color.MidnightBlue
-        Me.BtnShowLog.Location = New System.Drawing.Point(34, 471)
+        Me.BtnShowLog.Location = New System.Drawing.Point(31, 477)
         Me.BtnShowLog.Margin = New System.Windows.Forms.Padding(4)
         Me.BtnShowLog.Name = "BtnShowLog"
         Me.BtnShowLog.Size = New System.Drawing.Size(83, 32)
@@ -351,22 +329,6 @@ Partial Class FrmAnagrams
         Me.TxtCrosswordLength.Size = New System.Drawing.Size(40, 27)
         Me.TxtCrosswordLength.TabIndex = 1
         Me.ToolTip1.SetToolTip(Me.TxtCrosswordLength, "Maximum length of words to be found")
-        '
-        'BtnDonate
-        '
-        Me.BtnDonate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BtnDonate.BackColor = System.Drawing.Color.DarkGreen
-        Me.BtnDonate.FlatAppearance.BorderColor = System.Drawing.Color.MidnightBlue
-        Me.BtnDonate.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnDonate.ForeColor = System.Drawing.Color.PaleGreen
-        Me.BtnDonate.Location = New System.Drawing.Point(707, 557)
-        Me.BtnDonate.Margin = New System.Windows.Forms.Padding(0)
-        Me.BtnDonate.Name = "BtnDonate"
-        Me.BtnDonate.Size = New System.Drawing.Size(71, 26)
-        Me.BtnDonate.TabIndex = 24
-        Me.BtnDonate.Text = "Donate"
-        Me.ToolTip1.SetToolTip(Me.BtnDonate, "Help to support hindleware")
-        Me.BtnDonate.UseVisualStyleBackColor = False
         '
         'SplitContainer1
         '
@@ -387,8 +349,8 @@ Partial Class FrmAnagrams
         Me.SplitContainer1.Panel2.Controls.Add(Me.WebBrowser1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.TxtDefineWord)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnDefine)
-        Me.SplitContainer1.Size = New System.Drawing.Size(618, 362)
-        Me.SplitContainer1.SplitterDistance = 178
+        Me.SplitContainer1.Size = New System.Drawing.Size(648, 386)
+        Me.SplitContainer1.SplitterDistance = 192
         Me.SplitContainer1.TabIndex = 23
         '
         'LstWords
@@ -398,7 +360,7 @@ Partial Class FrmAnagrams
         Me.LstWords.ItemHeight = 19
         Me.LstWords.Location = New System.Drawing.Point(0, 0)
         Me.LstWords.Name = "LstWords"
-        Me.LstWords.Size = New System.Drawing.Size(174, 358)
+        Me.LstWords.Size = New System.Drawing.Size(188, 382)
         Me.LstWords.TabIndex = 0
         '
         'ChkLanguages
@@ -406,11 +368,11 @@ Partial Class FrmAnagrams
         Me.ChkLanguages.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ChkLanguages.AutoSize = True
         Me.ChkLanguages.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ChkLanguages.Location = New System.Drawing.Point(331, 333)
+        Me.ChkLanguages.Location = New System.Drawing.Point(336, 358)
         Me.ChkLanguages.Name = "ChkLanguages"
-        Me.ChkLanguages.Size = New System.Drawing.Size(102, 18)
+        Me.ChkLanguages.Size = New System.Drawing.Size(92, 18)
         Me.ChkLanguages.TabIndex = 3
-        Me.ChkLanguages.Text = "All Languages"
+        Me.ChkLanguages.Text = "English only"
         Me.ChkLanguages.UseVisualStyleBackColor = True
         '
         'WebBrowser1
@@ -418,19 +380,19 @@ Partial Class FrmAnagrams
         Me.WebBrowser1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.WebBrowser1.Location = New System.Drawing.Point(3, 3)
+        Me.WebBrowser1.Location = New System.Drawing.Point(0, 0)
         Me.WebBrowser1.MinimumSize = New System.Drawing.Size(20, 20)
         Me.WebBrowser1.Name = "WebBrowser1"
-        Me.WebBrowser1.Size = New System.Drawing.Size(427, 314)
+        Me.WebBrowser1.Size = New System.Drawing.Size(448, 345)
         Me.WebBrowser1.TabIndex = 2
         '
         'TxtDefineWord
         '
         Me.TxtDefineWord.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TxtDefineWord.Location = New System.Drawing.Point(90, 327)
+        Me.TxtDefineWord.Location = New System.Drawing.Point(83, 352)
         Me.TxtDefineWord.Name = "TxtDefineWord"
-        Me.TxtDefineWord.Size = New System.Drawing.Size(238, 27)
+        Me.TxtDefineWord.Size = New System.Drawing.Size(247, 27)
         Me.TxtDefineWord.TabIndex = 1
         '
         'BtnDefine
@@ -442,7 +404,7 @@ Partial Class FrmAnagrams
         Me.BtnDefine.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnDefine.Font = New System.Drawing.Font("Calibri", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnDefine.ForeColor = System.Drawing.Color.MidnightBlue
-        Me.BtnDefine.Location = New System.Drawing.Point(12, 326)
+        Me.BtnDefine.Location = New System.Drawing.Point(8, 351)
         Me.BtnDefine.Name = "BtnDefine"
         Me.BtnDefine.Size = New System.Drawing.Size(60, 29)
         Me.BtnDefine.TabIndex = 0
@@ -458,7 +420,7 @@ Partial Class FrmAnagrams
         Me.BtnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnClear.Font = New System.Drawing.Font("Calibri", 11.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnClear.ForeColor = System.Drawing.Color.Navy
-        Me.BtnClear.Location = New System.Drawing.Point(38, 363)
+        Me.BtnClear.Location = New System.Drawing.Point(35, 369)
         Me.BtnClear.Name = "BtnClear"
         Me.BtnClear.Size = New System.Drawing.Size(75, 52)
         Me.BtnClear.TabIndex = 2
@@ -562,21 +524,48 @@ Partial Class FrmAnagrams
         Me.Label11.TabIndex = 3
         Me.Label11.Text = "Crossword Solver"
         '
+        'StatusStrip1
+        '
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.lblInitProgress, Me.lblCopyright, Me.lblVersion})
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 579)
+        Me.StatusStrip1.Name = "StatusStrip1"
+        Me.StatusStrip1.Size = New System.Drawing.Size(824, 22)
+        Me.StatusStrip1.TabIndex = 24
+        Me.StatusStrip1.Text = "StatusStrip1"
+        '
+        'lblInitProgress
+        '
+        Me.lblInitProgress.Margin = New System.Windows.Forms.Padding(0, 3, 4, 2)
+        Me.lblInitProgress.Name = "lblInitProgress"
+        Me.lblInitProgress.Size = New System.Drawing.Size(0, 17)
+        '
+        'lblCopyright
+        '
+        Me.lblCopyright.Name = "lblCopyright"
+        Me.lblCopyright.Size = New System.Drawing.Size(60, 17)
+        Me.lblCopyright.Text = "Copyright"
+        '
+        'lblVersion
+        '
+        Me.lblVersion.Name = "lblVersion"
+        Me.lblVersion.Size = New System.Drawing.Size(719, 17)
+        Me.lblVersion.Spring = True
+        Me.lblVersion.Text = "version {0}.{1}.{2}"
+        Me.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
         'FrmAnagrams
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 19.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.AliceBlue
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.ClientSize = New System.Drawing.Size(794, 589)
-        Me.Controls.Add(Me.BtnDonate)
+        Me.ClientSize = New System.Drawing.Size(824, 601)
+        Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.SplitContainer2)
         Me.Controls.Add(Me.LblCompany)
         Me.Controls.Add(Me.BtnShowLog)
         Me.Controls.Add(Me.BtnClear)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Controls.Add(Me.lblVersion)
-        Me.Controls.Add(Me.lblCopyright)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.BtnAnagClose)
         Me.Controls.Add(Me.BtnInterrupt)
@@ -604,6 +593,8 @@ Partial Class FrmAnagrams
         Me.SplitContainer2.Panel2.PerformLayout()
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer2.ResumeLayout(False)
+        Me.StatusStrip1.ResumeLayout(False)
+        Me.StatusStrip1.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -625,8 +616,6 @@ Partial Class FrmAnagrams
     Friend WithEvents BtnAnagClose As System.Windows.Forms.Button
     Friend WithEvents lblProgress As System.Windows.Forms.Label
     Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
-    Friend WithEvents lblCopyright As System.Windows.Forms.Label
-    Friend WithEvents lblVersion As System.Windows.Forms.Label
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
     Friend WithEvents BtnXword As System.Windows.Forms.Button
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
@@ -644,6 +633,9 @@ Partial Class FrmAnagrams
     Friend WithEvents Label10 As Label
     Friend WithEvents SplitContainer2 As SplitContainer
     Friend WithEvents Label11 As Label
-    Friend WithEvents BtnDonate As Button
     Friend WithEvents ChkLanguages As CheckBox
+    Friend WithEvents StatusStrip1 As StatusStrip
+    Friend WithEvents lblCopyright As ToolStripStatusLabel
+    Friend WithEvents lblVersion As ToolStripStatusLabel
+    Friend WithEvents lblInitProgress As ToolStripStatusLabel
 End Class
