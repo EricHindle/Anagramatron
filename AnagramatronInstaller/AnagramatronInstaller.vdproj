@@ -272,7 +272,7 @@
             "SourcePath" = "8:..\\AnagramatronData\\wordlist.wyk"
             "TargetName" = "8:wordlist.wyk"
             "Tag" = "8:"
-            "Folder" = "8:_CA250BA579AB404BB0C8424F08ADB224"
+            "Folder" = "8:_C2853FB24A974D1FA861320B7CA96628"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -360,7 +360,7 @@
             }
             "{994432C3-9487-495D-8656-3E829A8DBDDE}:_CA250BA579AB404BB0C8424F08ADB224"
             {
-            "DefaultLocation" = "8:[ProgramFiles64Folder]\\[Manufacturer]\\[ProductName]\\AnagramatronData"
+            "DefaultLocation" = "8:[ProgramFiles64Folder]\\[Manufacturer]\\[ProductName]"
             "Name" = "8:Anagramatron"
             "AlwaysCreate" = "11:TRUE"
             "Condition" = "8:"
@@ -368,6 +368,17 @@
             "Property" = "8:NEWPROPERTY1"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_C2853FB24A974D1FA861320B7CA96628"
+                    {
+                    "Name" = "8:AnagramatronData"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_9266F800F9EB44E3954F33871FE27075"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
         }
@@ -386,15 +397,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Anagramatron"
-        "ProductCode" = "8:{A99F190E-0429-4C66-AEB4-8F8F206CCD2F}"
-        "PackageCode" = "8:{56186B90-94F9-4605-B1BB-28462D702877}"
+        "ProductCode" = "8:{8956F2BF-8C10-49BD-B037-57040D6FDB38}"
+        "PackageCode" = "8:{BD3E8899-F181-4925-AB49-AA8BD58D9C77}"
         "UpgradeCode" = "8:{2D5CD08D-AEBB-479E-93C4-574E7D70F942}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.11.7"
+        "ProductVersion" = "8:1.11.8"
         "Manufacturer" = "8:hindleware"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

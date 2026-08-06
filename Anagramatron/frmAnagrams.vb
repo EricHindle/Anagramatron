@@ -125,6 +125,7 @@ Public Class FrmAnagrams
             If String.IsNullOrWhiteSpace(TxtCrosswordLength.Text) OrElse Not IsNumeric(TxtCrosswordLength.Text) Then
                 MsgBox("You must provide a length for the required word", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Error")
             Else
+                CheckLengths()
                 TxtPattern.Text = Replace(TxtPattern.Text, " ", "?").ToLower
                 Dim regex As New RegularExpressions.Regex("[^a-zA-Z?/*]")
                 If regex.IsMatch(TxtPattern.Text) = True Then
@@ -200,16 +201,10 @@ Public Class FrmAnagrams
         End If
     End Sub
     Private Sub TxtPattern_TextChanged(sender As Object, e As EventArgs) Handles TxtPattern.TextChanged
-        If TxtPattern.TextLength > 0 And TxtLetters.TextLength = 0 And Not TxtPattern.Text.Contains("*") Then
-            TxtMinLen.Text = ""
-            TxtMaxLen.Text = ""
-            TxtCrosswordLength.Text = CStr(TxtPattern.TextLength)
-        End If
-        If TxtPattern.TextLength <> CStr(TxtCrosswordLength.Text) And Not TxtPattern.Text.Contains("*") Then
-            TxtCrosswordLength.BackColor = Color.LightCoral
-        Else
-            TxtCrosswordLength.BackColor = Color.White
-        End If
+        CheckLengths()
+    End Sub
+    Private Sub TxtCrosswordLength_TextChanged(sender As Object, e As EventArgs) Handles TxtCrosswordLength.TextChanged
+        CheckLengths()
     End Sub
     Private Sub TxtLetters_TextChanged(sender As Object, e As EventArgs) Handles TxtLetters.TextChanged
         TxtMinLen.Text = TxtLetters.TextLength
@@ -221,6 +216,18 @@ Public Class FrmAnagrams
     End Sub
     Private Sub ChkFindLargest_CheckedChanged(sender As Object, e As EventArgs) Handles ChkFindLargest.CheckedChanged
         isFindLargest = ChkFindLargest.Checked
+    End Sub
+    Private Sub BtnDonate_Click(sender As Object, e As EventArgs)
+        '     Process.Start(My.Settings.DonationPage)
+    End Sub
+    Private Sub ChkLanguages_CheckedChanged(sender As Object, e As EventArgs) Handles ChkLanguages.CheckedChanged
+        If Not isLoading Then
+            My.Settings.AllLanguages = ChkLanguages.Checked
+            My.Settings.Save()
+        End If
+    End Sub
+    Private Sub LblCompany_Click(sender As Object, e As EventArgs) Handles LblCompany.Click
+        StatusStrip1.Visible = Not StatusStrip1.Visible
     End Sub
 #End Region
 #Region "subroutines"
@@ -363,7 +370,7 @@ Public Class FrmAnagrams
             isValid = False
         Else
             TxtLetters.Text = Replace(TxtLetters.Text, " ", "")
-            If Len(TxtLetters.Text) <iMin Then
+            If Len(TxtLetters.Text) < iMin Then
                 MsgBox("Not enough letters for minimum length", vbExclamation, "Error")
                 isValid = False
             End If
@@ -390,17 +397,24 @@ Public Class FrmAnagrams
         WebBrowser1.Navigate("about:blank")
         WebBrowser1.Document.OpenNew(False)
     End Sub
-    Private Sub BtnDonate_Click(sender As Object, e As EventArgs)
-        '     Process.Start(My.Settings.DonationPage)
-    End Sub
-    Private Sub ChkLanguages_CheckedChanged(sender As Object, e As EventArgs) Handles ChkLanguages.CheckedChanged
-        If Not isLoading Then
-            My.Settings.AllLanguages = ChkLanguages.Checked
-            My.Settings.Save()
+    Private Sub CheckLengths()
+        TxtCrosswordLength.BackColor = Color.White
+        If Not String.IsNullOrWhiteSpace(TxtCrosswordLength.Text) Then
+            If Not String.IsNullOrEmpty(TxtPattern.Text) Then
+                Dim _notAst As String = TxtPattern.Text.Replace("*", "")
+                Dim _patternLength As Integer = _notAst.Length
+                Dim _requiredLength As Integer = CInt("0" & TxtCrosswordLength.Text)
+                If Not TxtPattern.Text.Contains("*") Then
+                    If _requiredLength <> _patternLength Then
+                        TxtCrosswordLength.BackColor = Color.LightPink
+                    End If
+                Else
+                    If _requiredLength < _patternLength Then
+                        TxtCrosswordLength.BackColor = Color.LightPink
+                    End If
+                End If
+            End If
         End If
-    End Sub
-    Private Sub LblCompany_Click(sender As Object, e As EventArgs) Handles LblCompany.Click
-        StatusStrip1.Visible = Not StatusStrip1.Visible
     End Sub
 #End Region
 End Class

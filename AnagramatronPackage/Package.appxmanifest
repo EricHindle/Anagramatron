@@ -9,7 +9,7 @@
   <Identity
     Name="Hindleware.Anagramatron"
     Publisher="CN=4ED3841C-E190-4EDF-AEE2-CC01BA4DBCA5"
-    Version="1.11.7.0" />
+    Version="1.11.8.0" />
 
   <Properties>
     <DisplayName>Anagramatron</DisplayName>

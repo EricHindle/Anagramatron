@@ -548,7 +548,7 @@ Partial Class FrmAnagrams
         'lblVersion
         '
         Me.lblVersion.Name = "lblVersion"
-        Me.lblVersion.Size = New System.Drawing.Size(719, 17)
+        Me.lblVersion.Size = New System.Drawing.Size(745, 17)
         Me.lblVersion.Spring = True
         Me.lblVersion.Text = "version {0}.{1}.{2}"
         Me.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight
